@@ -1,0 +1,21 @@
+Total SETTINGS:
+
+Accessibility: 
+    -Modos daltonismo
+    -Modo alto contraste
+    -Modo claro/escuro
+
+Language: 
+    -Português-Brasil
+    -Inglês-US
+    -Espanhol
+
+Keybinds:
+    -Movimentação
+
+Audio: 
+    -Mudar volume
+
+Screen:  
+    -Resolução
+    -Alterar brilho
