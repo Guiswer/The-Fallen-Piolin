@@ -8,6 +8,7 @@ D - Right
 
 ACTIONS:
 MB1 - Shoot
+MB2 - UNSTOPPABLE MODE
 F - Interactions
 
 
