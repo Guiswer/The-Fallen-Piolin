@@ -1,1 +1,20 @@
- 
+PC:
+
+MOVIMENT:
+W - To up
+A - Left
+S - To down
+D - Right
+
+ACTIONS:
+MB1 - Shoot
+F - Interactions
+
+
+MOBILE:
+
+MOVIMENT:
+By arrows
+
+ACTIONS:
+By shoot bottom
