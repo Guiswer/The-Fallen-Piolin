@@ -28,10 +28,12 @@ import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
-// Classe principal para rodar o programa!
-// extende a classe GameApplication do FXGL 
-// responsável por disponibilizar os métodos de configuração 
-// do jogo
+/*
+ Classe principal para rodar o programa!
+ extende a classe GameApplication da biblioteca FXGL
+ responsável por disponibilizar os métodos de configuração
+ do jogo
+ */
 public class Main extends GameApplication {
 
 // Injetando a classe player de forma global
@@ -41,12 +43,15 @@ public class Main extends GameApplication {
 // definir o tamanho da tela entre outros.
     @Override
     protected void initSettings(GameSettings settings) {
+        // Configura tamanho da tela
         settings.setWidth(15*70); // 1050
         settings.setHeight(10*70); // 700
         System.out.println(settings.getMenuKey());
+        // Habilita os menus de configurações dentro do jogo
         settings.setGameMenuEnabled(true);
         settings.setDeveloperMenuEnabled(true);
 
+        // Inicia a cena de carregamento
         settings.setSceneFactory(new SceneFactory() {
             @Override
             public LoadingScene newLoadingScene() {
@@ -54,17 +59,23 @@ public class Main extends GameApplication {
             }
         });
 
+        // Modo da aplicação (Desenvolvimento, Debug ou final) apenas algo visual
+        settings.setApplicationMode(ApplicationMode.DEVELOPER);
+
         //settings.getCollisionDetectionStrategy();
         //settings.getEnabledMenuItems();
-        settings.setApplicationMode(ApplicationMode.DEVELOPER);
     }
 
 
 
-// método responsável por criar os atalhos das teclas
-// e definir as ações
+/*
+    Método responsável por criar os atalhos das teclas
+    e definir as ações
+*/
     @Override
     protected void initInput() {
+
+        //Mover personagem para a esquerda
         getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
@@ -77,6 +88,7 @@ public class Main extends GameApplication {
             }
         }, KeyCode.A, VirtualButton.LEFT);
 
+        //Mover personagem para a direita
         getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
@@ -89,6 +101,7 @@ public class Main extends GameApplication {
             }
         }, KeyCode.D, VirtualButton.RIGHT);
 
+        //Pular com o personagem
         getInput().addAction(new UserAction("Jump") {
             @Override
             protected void onActionBegin() {
@@ -96,6 +109,7 @@ public class Main extends GameApplication {
             }
         }, KeyCode.W, VirtualButton.A);
 
+        //Atirar penas com o personagem
         getInput().addAction(new UserAction("Shoot") {
             @Override
             protected void onActionBegin() {
@@ -105,34 +119,50 @@ public class Main extends GameApplication {
     }
 
 
-// método acionado antes do init para definir
-// o som de fundo e a classe de fábrica (factory)
-// que é responsável por saber a criação de cada entidade 
-// e as suas características quando invocada no jogo
+/*
+ Método acionado antes do init para definir o som de fundo
+ */
     @Override
     protected void onPreInit() {
+        // Modificando volume inicial
         getSettings().setGlobalMusicVolume(0.03);
+        // Definindo som de fundo
         loopBGM("you_won_the_battle_but_not_the_war.wav");
     }
 
+
+    /*
+    Método para iniciar o jogo adicionando a classe de fábrica (factory), também é reposponsável por
+    invocar o plano de fundo e jogador e configurar a tela para se vincular ao jogador
+     */
     @Override
     protected void initGame() {
+        /*
+         Vinculando a classe de fábrica que é responsável por saber
+         as configurações de criação de cada entidade
+         e as suas características quando invocada no jogo
+         */
         getGameWorld().addEntityFactory(new MainFactory());
 
         player = null;
 
-
+        // IGNORAR ESTES COMENTARIOS POR ENQUANTO....
         // READ MORE...
         //if (player != null) {
         //    player.getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
         //    player.setZIndex(Integer.MAX_VALUE);
         //}
 
+        // Invocando plano de fundo
         spawn("background");
+        // Definindo o mapa
         setLevelFromMap("tmx/mapa.tmx");
 
+        //Invocando jogador
         player = spawn("player", 0, 0);
 
+
+        // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
        // viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
         viewport.bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
@@ -142,18 +172,25 @@ public class Main extends GameApplication {
 
 
 
-// método responsável por definir as configurações 
-// de física do jogo como a gravidade para as entidades
-// e as ações de colisão entre entidades
+/*
+    Método responsável por definir as configurações
+    de física do jogo como a gravidade para as entidades
+    e as ações de colisão entre entidades
+ */
     @Override
     protected void initPhysics() {
+        // Definindo gravidade
         getPhysicsWorld().setGravity(0, 760);
+
+        // Definindo a colisão da pena com o inimigo
         onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet, enemy) -> {
             bullet.removeFromWorld();
             enemy.removeFromWorld();
         });
     }
 
+
+    // Método main padrão chamando as configurações da biblioteca FXGL
     public static void main(String[] args) {
         launch(args);
     }

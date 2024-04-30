@@ -23,8 +23,26 @@ import javafx.scene.shape.Rectangle;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
 
+/*
+    Método de fabricação para configurar cada entidade
+    quando invocada (spawn)
+ */
+
+/*
+ COMENTÁRIOS IMPORTANTES!
+
+ EntityBuilder() = método responsável para criar a entidade
+
+ bbox() = método para definir o tamanho da caixa de colisão (HitBox)  - não sei traduzir hit box ;-;
+
+ .with(new PhysicsComponent()) = utilizado junto ao bbox() torna a entidade um componente físico
+                        ou seja que pode sofre física de colisão e sua hit box começa a funcionar!
+
+  build() = método para finalizar a criação da entidade no EntityBuilder()
+ */
 public class MainFactory implements EntityFactory {
 
+    // Invocar plano de fundo
     @Spawns("background")
     public Entity newBackground(SpawnData data) {
         return entityBuilder()
@@ -35,6 +53,10 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
+    /* Invocar plataforma
+     OBS: este método é apenas para definir física para o personagem poder colidir com as plataformas,
+        não sendo ligado literalmente com as plataformas visuais do mapa!
+     */
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
         return entityBuilder()
@@ -44,7 +66,8 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-    //Improvisando spawn como nome vazio, para evitar erros no momento de gerar a camada de objetos do mapa
+    // Improvisando spawn como nome vazio, para evitar erros no momento de gerar a camada de objetos do mapa
+    // ESTE MÉTODO DEVE SER REMOVIDO POSTERIORMENTE, QUANDO O MOTIVO DO ERROR FOR ENCONTRADO!
     @Spawns("")
     public Entity newPl(SpawnData data) {
         return entityBuilder()
@@ -54,6 +77,8 @@ public class MainFactory implements EntityFactory {
     }
 
 
+    // Invocar moeda
+    // MÉTODO QUE TAMBÉM SERÁ REMOVIDO NO FUTURO QUANDO NÃO HOUVER NECESSIDADE DE UTILIZAÇÃO DO PRIMEIRO MAPA
     @Spawns("coin")
     public Entity newCoin(SpawnData data) {
         return entityBuilder()
@@ -62,21 +87,32 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
+    /*
+        Invoca a pena quando o jogador atirar com o personagem, configura a direção
+        da pena, velocidade, onde ela aparecerá e remove a mesma quando
+        sair da tela do jogador (campo de visão)
+     */
     @Spawns("feather")
     public Entity newFeather(SpawnData data) {
+        // Obtém a entidade do jogador para saber a posição de onde
+        // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
 
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
+        // PS: Foi mal geuntiiiii!
         double featheProjectileDirectionX = player.getCenter().getX();
         double featherOriginDirectionY = player.getCenter().getY() - 35;
         double featherOriginDirectionX = featheProjectileDirectionX;
         double changeableScaleFeatherYByPlayerDirectionX = 1;
 
+        // Regra para obter a direção que o personagem está direcionado
         if (player.getScaleX() < 0) {
             featheProjectileDirectionX = -player.getCenter().getX();
             featherOriginDirectionX -= 80;
             changeableScaleFeatherYByPlayerDirectionX = -1;
         }
 
+        // Direção do projetil
         Point2D direction = new Point2D(featheProjectileDirectionX, 0);
 
         return  entityBuilder()
@@ -93,30 +129,33 @@ public class MainFactory implements EntityFactory {
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
 
+        // Obtendo um componente de física específico para o jogador
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
 
-        // SWORDER
-        physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(22, 52), BoundingShape.box(6, 8)));
-
-        // this avoids player sticking to walls
+        // Evita que o jogador grude nas paredes
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
+
+                // PODE SER UTILIZADO DEPOIS PARA UM SEGUNDA HIT BOX REDONDA
+                // SIGNIFICANDO A CABEÇA DO PERSONAGEM
                 //.bbox(new HitBox(new Point2D(5,15), BoundingShape.circle(6)))
 
                 //Piolin
                 .bbox(new HitBox(new Point2D(25,10), BoundingShape.box(15, 50)))
-
-                // SWORDER
-                //.bbox(new HitBox(new Point2D(20,0), BoundingShape.box(10, 28)))
-
-                // CHAR BLUE
-                //.bbox(new HitBox(new Point2D(22, 27), BoundingShape.box(10, 28)))
                 .with(physics)
+                // Componente possivel de colisão
                 .with(new CollidableComponent(true))
+                // Componente irremovivel do jogo
                 .with(new IrremovableComponent())
+
+
+                /*
+                 INJETA AQUI A CLASSE PLAYER (COMPONENTE) QUE É BREVEMENTE CONFIGURADA EM UMA CLASSE
+                 SEPARADA POR TER DIVERSOS RECURSOS QUE AS DEMAIS ENTIDADE NÃO PRECISAM!
+                 */
                 .with(new PlayerComponent())
                 .build();
     }
