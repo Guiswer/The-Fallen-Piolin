@@ -12,6 +12,7 @@ import com.almasb.fxgl.app.scene.LoadingScene;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.app.scene.Viewport;
 import com.almasb.fxgl.core.util.LazyValue;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.CollidableComponent;
@@ -38,7 +39,6 @@ public class Main extends GameApplication {
 
 // Injetando a classe player de forma global
     private Entity player;
-
     private Entity enemy;
 
 // método de configurações usado para
@@ -118,6 +118,14 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerComponent.class).shoot();
             }
         }, MouseButton.PRIMARY);
+
+        getInput().addAction(new UserAction("SOM DETENHA O ESPALHA LIXO!") {
+            @Override
+            protected void onActionBegin() {
+                System.out.println("ACAO AUDIO!");
+                FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
+            }
+        }, KeyCode.F);
     }
 
 

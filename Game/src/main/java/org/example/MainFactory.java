@@ -60,6 +60,7 @@ public class MainFactory implements EntityFactory {
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
 
+
         //System.out.println(data.<Float>get("rotation"));
 
         return entityBuilder()

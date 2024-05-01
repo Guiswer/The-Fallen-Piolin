@@ -4,8 +4,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-
 
 public class SensorComponent extends Component {
         @Override
@@ -19,7 +17,7 @@ public class SensorComponent extends Component {
                 getEntity().getComponent(EnemyComponent.class).atirar();
 
             } else {
-                System.out.println("LONGE");
+
             }
         }
 }
