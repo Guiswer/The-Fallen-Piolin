@@ -156,7 +156,7 @@ public class Main extends GameApplication {
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
-        setLevelFromMap("tmx/mapa.tmx");
+        setLevelFromMap("tmx/map-remastered7.tmx");
 
         //Invocando jogador
         player = spawn("player", 0, 0);
