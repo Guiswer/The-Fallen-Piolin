@@ -127,7 +127,7 @@ public class Main extends GameApplication {
     @Override
     protected void onPreInit() {
         // Modificando volume inicial
-        getSettings().setGlobalMusicVolume(0.03);
+        getSettings().setGlobalMusicVolume(0.01);
         // Definindo som de fundo
         loopBGM("you_won_the_battle_but_not_the_war.wav");
     }
@@ -153,7 +153,7 @@ public class Main extends GameApplication {
         //if (player != null) {
         //    player.getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
         //    player.setZIndex(Integer.MAX_VALUE);
-        //}
+        //
 
         // Invocando plano de fundo
         spawn("background");
@@ -167,7 +167,7 @@ public class Main extends GameApplication {
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
-       // viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
+        viewport.setBounds(-1500, -200, 2560, 1200);
         viewport.bindToEntity(player, getAppWidth() / 2, 450);
         viewport.setZoom(2.5);
         viewport.setLazy(true);

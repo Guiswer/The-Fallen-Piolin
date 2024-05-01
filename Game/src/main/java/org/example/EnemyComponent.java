@@ -25,6 +25,8 @@ public class EnemyComponent extends Component {
 
     private int life = 10;
 
+    private boolean tiroEmEspera = false;
+
     public EnemyComponent() {
 
         // Definindo o PNG com os quadros (frames) de animação
@@ -53,10 +55,28 @@ public class EnemyComponent extends Component {
     }
 
     public void tomaDano() {
-        System.out.println("DANOOOOO");
+        System.out.println("Vida do Espalha Lixo: " + life);
         life--;
         if (life <= 0 ) {
             entity.removeFromWorld();
+        }
+    }
+
+    public void atirar() {
+        System.out.println("Espalha lixo atirou!");
+        if(!tiroEmEspera) {
+            spawn("tiroDoEspalhaLixo");
+            tiroEmEspera = true;
+
+            Timer timer = new Timer();
+            long delay = 400;
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    tiroEmEspera = false;
+                }
+            };
+            timer.schedule(task, delay);
         }
     }
 }

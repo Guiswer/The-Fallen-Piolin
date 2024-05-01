@@ -130,6 +130,45 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("tiroDoEspalhaLixo")
+    public Entity newTiroDoEspalhaLixo(SpawnData data) {
+        // Obtém a entidade do jogador para saber a posição de onde
+        // será lançada a pena
+        Entity EspalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
+        Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
+        double playerPosicaoX = player.getPosition().getX();
+
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
+        // PS: Foi mal geuntiiiii!
+        double featheProjectileDirectionX = EspalhaLixo.getCenter().getX();
+        double featherOriginDirectionY = EspalhaLixo.getCenter().getY() - 35;
+        double featherOriginDirectionX = featheProjectileDirectionX;
+        double changeableScaleFeatherYByPlayerDirectionX = 0.5;
+
+        // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
+        if (EspalhaLixo.getPosition().getX() > playerPosicaoX) {
+            featheProjectileDirectionX = -EspalhaLixo.getCenter().getX();
+            featherOriginDirectionX -= 80;
+            changeableScaleFeatherYByPlayerDirectionX = -0.5;
+        }
+
+        // Direção do projetil
+        Point2D direction = new Point2D(featheProjectileDirectionX, 0);
+
+        return  entityBuilder()
+                .at(featherOriginDirectionX, featherOriginDirectionY)
+                .type(FEATHER)
+                .viewWithBBox("normal_feather.png")
+                .collidable()
+                .with(new ProjectileComponent(direction, 1000))
+                .with(new OffscreenCleanComponent())
+                .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
+                .build();
+    }
+
+
+
+
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
 
@@ -183,6 +222,8 @@ public class MainFactory implements EntityFactory {
                 // Componente possivel de colisão
                 .with(new CollidableComponent(true))
 
+                //Sensor para verificar proximidade do PIOLIN
+                .with(new SensorComponent())
                 .with(new EnemyComponent())
                 .build();
     }
