@@ -39,6 +39,8 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
 
+    private Entity enemy;
+
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
     @Override
@@ -161,12 +163,13 @@ public class Main extends GameApplication {
         //Invocando jogador
         player = spawn("player", 0, 0);
 
+        enemy = spawn("enemy", 0, 0);
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
        // viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
-        viewport.bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
-        viewport.setZoom(2);
+        viewport.bindToEntity(player, getAppWidth() / 2, 450);
+        viewport.setZoom(2.5);
         viewport.setLazy(true);
     }
 
@@ -183,9 +186,9 @@ public class Main extends GameApplication {
         getPhysicsWorld().setGravity(0, 760);
 
         // Definindo a colisão da pena com o inimigo
-        onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet, enemy) -> {
+        onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet,a) -> {
             bullet.removeFromWorld();
-            enemy.removeFromWorld();
+            enemy.getComponent(EnemyComponent.class).tomaDano();
         });
     }
 

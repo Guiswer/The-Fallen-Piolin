@@ -59,7 +59,9 @@ public class MainFactory implements EntityFactory {
      */
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
-     
+
+        //System.out.println(data.<Float>get("rotation"));
+
         return entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
@@ -160,6 +162,28 @@ public class MainFactory implements EntityFactory {
                  SEPARADA POR TER DIVERSOS RECURSOS QUE AS DEMAIS ENTIDADE NÃO PRECISAM!
                  */
                 .with(new PlayerComponent())
+                .build();
+    }
+
+    @Spawns("enemy")
+    public Entity newEnemy(SpawnData data) {
+// Obtendo um componente de física específico para o jogador
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.DYNAMIC);
+        physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
+
+        // Evita que o jogador grude nas paredes
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+
+        return FXGL.entityBuilder(data)
+                .type(ENEMY)
+                //Piolin
+                .bbox(new HitBox(new Point2D(25,10), BoundingShape.box(15, 50)))
+                .with(physics)
+                // Componente possivel de colisão
+                .with(new CollidableComponent(true))
+
+                .with(new EnemyComponent())
                 .build();
     }
 }
