@@ -7,12 +7,10 @@ import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.GameView;
-import com.almasb.fxgl.app.scene.LoadingScene;
-import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.app.scene.Viewport;
+import com.almasb.fxgl.app.scene.*;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.core.util.LazyValue;
+import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
@@ -25,17 +23,31 @@ import com.almasb.fxgl.particle.ParticleComponent;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.Body;
+import com.almasb.fxgl.ui.FontType;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
 
 /*
  Classe principal para rodar o programa!
@@ -56,7 +68,8 @@ public class Main extends GameApplication {
         // Configura tamanho da tela
         settings.setWidth(15*70); // 1050
         settings.setHeight(10*70); // 700
-        System.out.println(settings.getMenuKey());
+        //System.out.println(settings.getMenuKey());
+
         // Habilita os menus de configurações dentro do jogo
         settings.setGameMenuEnabled(true);
         settings.setDeveloperMenuEnabled(true);
@@ -67,6 +80,12 @@ public class Main extends GameApplication {
             public LoadingScene newLoadingScene() {
                 return new MainLoadingScene();
             }
+
+            /*@Override
+            public FXGLMenu newGameMenu() {
+                //return new SimpleGameMenu();
+                return new MyPauseMenu();
+            }*/
         });
 
         // Modo da aplicação (Desenvolvimento, Debug ou final) apenas algo visual
@@ -125,18 +144,34 @@ public class Main extends GameApplication {
             }
         }, MouseButton.PRIMARY);
 
-        getInput().addAction(new UserAction("SOM DETENHA O ESPALHA LIXO!") {
+        getInput().addAction(new UserAction("PAUSE") {
             @Override
             protected void onActionBegin() {
-                System.out.println("ACAO AUDIO!");
-                FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
+
+               // FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
+
             }
         }, KeyCode.F);
+
+        getInput().addAction(new UserAction("RESUME") {
+            @Override
+            protected void onActionBegin() {
+
+                Text textResume = FXGL.getUIFactoryService().newText("RESUME", Color.WHITE, FontType.GAME, 24.0);
+                textResume.setTranslateX(50);
+                textResume.setTranslateY(100);
+                textResume.setMouseTransparent(true);
+
+
+
+
+                getGameController().resumeEngine();
+            }
+        }, KeyCode.G);
 
         getInput().addAction(new UserAction("Move espalha lixo para a esquerda!") {
             @Override
             protected void onActionBegin() {
-
                 enemy.getComponent(EnemyComponent.class).moveParaEsquerda();
             }
         }, KeyCode.J);
@@ -152,7 +187,7 @@ public class Main extends GameApplication {
 
 /*
  Método acionado antes do init para definir o som de fundo
- */
+*/
     @Override
     protected void onPreInit() {
         // Modificando volume inicial
@@ -172,7 +207,7 @@ public class Main extends GameApplication {
          Vinculando a classe de fábrica que é responsável por saber
          as configurações de criação de cada entidade
          e as suas características quando invocada no jogo
-         */
+        */
         getGameWorld().addEntityFactory(new MainFactory());
 
         player = null;
@@ -262,6 +297,11 @@ public class Main extends GameApplication {
         onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet,a) -> {
             bullet.removeFromWorld();
             enemy.getComponent(EnemyComponent.class).tomaDano();
+        });
+
+        onCollisionBegin(EntityType.TIRO_INIMIGO, EntityType.PLAYER, (tiro, player) -> {
+            tiro.removeFromWorld();
+            player.getComponent(PlayerComponent.class).tomaDano();
         });
     }
 
