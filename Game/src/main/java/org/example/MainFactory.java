@@ -181,7 +181,7 @@ public class MainFactory implements EntityFactory {
 
         return  entityBuilder()
                 .at(featherOriginDirectionX, featherOriginDirectionY)
-                .type(FEATHER)
+                .type(TIRO_INIMIGO)
                 .viewWithBBox("normal_feather.png")
                 .collidable()
                 .with(new ProjectileComponent(direction, 1000))

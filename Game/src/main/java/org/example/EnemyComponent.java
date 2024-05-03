@@ -100,7 +100,7 @@ public class EnemyComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-       
+
         if (!metodoPararFoiUtilizado) {
             if(guardaUltimaMovimentacao > 0) {
                 physics.setVelocityX(velocidadeDoPersonagem);
@@ -116,6 +116,7 @@ public class EnemyComponent extends Component {
         life--;
         barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
         if (life <= 0 ) {
+            tarefaDeMovimentacaoAleatoria.cancel();
             entity.removeFromWorld();
         }
     }

@@ -1,20 +1,29 @@
 package org.example;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.Body;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 
+import com.almasb.fxgl.ui.FontType;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 
 /*
@@ -29,11 +38,16 @@ public class PlayerComponent extends Component {
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
 
+    private int vida = 10;
+
     //Propriedades de configurações
     //Colocar o jogador em tempo de espera para evitar tiros simultaneos
     private boolean shootInCooldown = false;
     //Definindo limite de pulos do jogador
     private int jumps = 4000;
+
+    //Barra visual de vida
+    private Rectangle barra_de_vida = new Rectangle(100, 30, Color.GREEN);
 
     // Construtor da classe
     public PlayerComponent() {
@@ -50,6 +64,12 @@ public class PlayerComponent extends Component {
         texture = new AnimatedTexture(animIdle);
         // Loop para gerar a animação
         texture.loop();
+
+
+        //BARRA DE VIDA
+        barra_de_vida.setX(200);
+        barra_de_vida.setY(200);
+        getGameScene().addUINode(barra_de_vida);
     }
 
 
@@ -140,6 +160,47 @@ public class PlayerComponent extends Component {
                 }
             };
             timer.schedule(task, delay);
+        }
+    }
+
+    public void tomaDano() {
+        vida--;
+        barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
+
+        if (vida <= 0 ) {
+            // GAME OVER!
+
+            getGameController().pauseEngine();
+            Rectangle barra_de_vida = new Rectangle(260, 50, Color.DARKORANGE);
+            barra_de_vida.setX(getAppWidth()/2 - 130);
+            barra_de_vida.setY(300);
+
+            Button btn = new Button("FECHAR");
+            btn.setTranslateX(getAppWidth()/2 - 125);
+            btn.setTranslateY(300);
+            btn.setBackground(Background.fill(Color.ORANGE));
+            btn.setPrefWidth(250); // Define a largura do botão para 200 pixels
+            btn.setPrefHeight(40); // Define a altura do botão para 100 pixels
+
+
+            EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent e)
+                {
+                    FXGL.getGameController().exit();
+                }
+            };
+
+            btn.setOnAction(event);
+
+            Text textOptions = FXGL.getUIFactoryService().newText("DERROTA!", Color.WHITE, FontType.GAME, 54);
+            textOptions.setTranslateX(getAppWidth()/2 - 100);
+
+            textOptions.setTranslateY(290);
+            textOptions.setMouseTransparent(true);
+
+            getGameScene().addUINode(barra_de_vida);
+            getGameScene().addUINode(btn);
+            getGameScene().addUINode(textOptions);
         }
     }
 }
