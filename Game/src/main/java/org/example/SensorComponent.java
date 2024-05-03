@@ -16,6 +16,9 @@ public class SensorComponent extends Component {
 
                 getEntity().getComponent(EnemyComponent.class).atirar();
 
+            } // Para decidir se vai atirar nas árvores
+            else if (false) {
+
             } else {
 
             }

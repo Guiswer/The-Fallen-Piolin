@@ -44,7 +44,6 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
     private Entity enemy;
-    private Rectangle barra_de_vida = new Rectangle(120, 30, Color.BLUE);
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
@@ -203,10 +202,6 @@ public class Main extends GameApplication {
         imageView.setFitWidth(200);
         imageView.setFitHeight(200);
         imageView.setPreserveRatio(true);
-
-
-
-
 
 
         // Configurações de tela (viewport) para se vincular ao jogador

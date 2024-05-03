@@ -15,9 +15,11 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+
 
 public class EnemyComponent extends Component {
 
@@ -30,6 +32,8 @@ public class EnemyComponent extends Component {
     private Rectangle barra_de_vida = new Rectangle(100, 30, Color.BLUE);
     private double escalaDoPersonagem = 0.8;
     private boolean tiroEmEspera = false;
+
+    private Timer tarefaDeMovimentacaoAleatoria;
 
     public EnemyComponent() {
 
@@ -50,6 +54,17 @@ public class EnemyComponent extends Component {
         barra_de_vida.setX(100);
         barra_de_vida.setY(100);
         getGameScene().addUINode(barra_de_vida);
+
+
+        // Definindo movimentação aleatória
+        tarefaDeMovimentacaoAleatoria = new Timer();
+        tarefaDeMovimentacaoAleatoria.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Executando tarefa...");
+                movimentacaoAleatoria();
+            }
+        }, 0, 5000);
     }
 
     @Override
@@ -100,11 +115,21 @@ public class EnemyComponent extends Component {
         physics.setVelocityX(170);
     }
 
+    public void pararPersonagem() {
+        physics.setVelocityX(0);
+    }
 
     public void movimentacaoAleatoria() {
         Random random = new Random();
 
-        // Gerar um número inteiro aleatório entre 0 e 100
-        int randomNumber = random.nextInt(101);
+        // Gerar um número inteiro aleatório entre 0 e 2
+        int decisaoAleatoriaDeMovimentacao = random.nextInt(2);
+        if (decisaoAleatoriaDeMovimentacao == 0) {
+            moveParaDireita();
+        } else if (decisaoAleatoriaDeMovimentacao == 1) {
+            moveParaEsquerda();
+        } else {
+            pararPersonagem();
+        }
     }
 }

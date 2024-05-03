@@ -158,7 +158,6 @@ public class MainFactory implements EntityFactory {
         double changeableScaleFeatherYByPlayerDirectionX = 0.5;
 
 
-
         // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
         if (espalhaLixo.getPosition().getX() > playerPosicaoX) {
             featheProjectileDirectionX = -espalhaLixo.getCenter().getX();
@@ -168,6 +167,8 @@ public class MainFactory implements EntityFactory {
         } else {
             espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
         }
+
+        espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
 
         // Direção do projetil
         Point2D direction = new Point2D(featheProjectileDirectionX, 0);
