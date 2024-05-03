@@ -13,11 +13,14 @@ import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.Body;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
@@ -60,19 +63,36 @@ public class MainFactory implements EntityFactory {
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
 
-        //System.out.println(data.<Float>get("rotation"));
+        PhysicsComponent physics = new PhysicsComponent();
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
+        fd.setFriction(0);
+        physics.setFixtureDef(fd);
 
         return entityBuilder()
+                .type(PLATFORM)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .with(physics)
+                .build();
+    }
+    @Spawns("platform-diagonal")
+    public Entity newPlatfawdorm(SpawnData data) {
+
+        return  entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
                 .build();
     }
 
-    // Improvisando spawn como nome vazio, para evitar erros no momento de gerar a camada de objetos do mapa
-    // ESTE MÉTODO DEVE SER REMOVIDO POSTERIORMENTE, QUANDO O MOTIVO DO ERROR FOR ENCONTRADO!
     @Spawns("")
-    public Entity newPl(SpawnData data) {
+    public Entity newPlaatfawdorm(SpawnData data) {
+
+        System.out.println("POLIGONO");
+        System.out.println( data.getData());
+        System.out.println( data.getData().toString());
+
         return entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
@@ -134,23 +154,27 @@ public class MainFactory implements EntityFactory {
     public Entity newTiroDoEspalhaLixo(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
-        Entity EspalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
+        Entity espalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
         Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
         double playerPosicaoX = player.getPosition().getX();
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
-        // PS: Foi mal geuntiiiii!
-        double featheProjectileDirectionX = EspalhaLixo.getCenter().getX();
-        double featherOriginDirectionY = EspalhaLixo.getCenter().getY() - 35;
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO
+        double featheProjectileDirectionX = espalhaLixo.getCenter().getX();
+        double featherOriginDirectionY = espalhaLixo.getCenter().getY() - 35;
         double featherOriginDirectionX = featheProjectileDirectionX;
         double changeableScaleFeatherYByPlayerDirectionX = 0.5;
 
+
         // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
-        if (EspalhaLixo.getPosition().getX() > playerPosicaoX) {
-            featheProjectileDirectionX = -EspalhaLixo.getCenter().getX();
+        if (espalhaLixo.getPosition().getX() > playerPosicaoX) {
+            featheProjectileDirectionX = -espalhaLixo.getCenter().getX();
             featherOriginDirectionX -= 80;
             changeableScaleFeatherYByPlayerDirectionX = -0.5;
+            espalhaLixo.getComponent(EnemyComponent.class).moveParaEsquerda();
+        } else {
+            espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
         }
+        espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
 
         // Direção do projetil
         Point2D direction = new Point2D(featheProjectileDirectionX, 0);
@@ -177,8 +201,17 @@ public class MainFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
+
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
         // Evita que o jogador grude nas paredes
-        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        fd.setFriction(0);
+
+
+        physics.setFixtureDef(fd);
+
+
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
@@ -211,8 +244,15 @@ public class MainFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
+
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
+
         // Evita que o jogador grude nas paredes
-        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        fd.setFriction(0);
+
+        physics.setFixtureDef(fd);
 
         return FXGL.entityBuilder(data)
                 .type(ENEMY)

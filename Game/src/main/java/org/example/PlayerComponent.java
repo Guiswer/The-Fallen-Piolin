@@ -2,6 +2,7 @@ package org.example;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.Body;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 
@@ -57,6 +58,8 @@ public class PlayerComponent extends Component {
         entity.getTransformComponent().setScaleOrigin(new Point2D(25, 21));
         entity.getViewComponent().addChild(texture);
 
+
+
         // Escala do personagem
         entity.setScaleX(0.4);
         entity.setScaleY(0.4);
@@ -93,13 +96,14 @@ public class PlayerComponent extends Component {
     //Mover para a esquerda
     public void left() {
         getEntity().setScaleX(-0.4);
-        physics.setVelocityX(-170);
+        physics.setVelocityX(-220);
+
     }
 
     //Mover para a direita
     public void right() {
         getEntity().setScaleX(0.4);
-        physics.setVelocityX(170);
+        physics.setVelocityX(220);
     }
 
     // Este método em especifico é chamado no final de cada ação de movimento para a esquerda e direita
@@ -122,6 +126,7 @@ public class PlayerComponent extends Component {
 
     // Atirar penas com o personagem
     public void shoot() {
+
         if(!shootInCooldown) {
             spawn("feather");
             shootInCooldown = true;

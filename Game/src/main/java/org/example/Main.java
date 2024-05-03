@@ -11,7 +11,9 @@ import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.app.scene.LoadingScene;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.app.scene.Viewport;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.core.util.LazyValue;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.CollidableComponent;
@@ -19,11 +21,18 @@ import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.view.KeyView;
 import com.almasb.fxgl.input.virtual.VirtualButton;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.Body;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -38,7 +47,6 @@ public class Main extends GameApplication {
 
 // Injetando a classe player de forma global
     private Entity player;
-
     private Entity enemy;
 
 // método de configurações usado para
@@ -67,8 +75,6 @@ public class Main extends GameApplication {
         //settings.getCollisionDetectionStrategy();
         //settings.getEnabledMenuItems();
     }
-
-
 
 /*
     Método responsável por criar os atalhos das teclas
@@ -118,6 +124,29 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerComponent.class).shoot();
             }
         }, MouseButton.PRIMARY);
+
+        getInput().addAction(new UserAction("SOM DETENHA O ESPALHA LIXO!") {
+            @Override
+            protected void onActionBegin() {
+                System.out.println("ACAO AUDIO!");
+                FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
+            }
+        }, KeyCode.F);
+
+        getInput().addAction(new UserAction("Move espalha lixo para a esquerda!") {
+            @Override
+            protected void onActionBegin() {
+
+                enemy.getComponent(EnemyComponent.class).moveParaEsquerda();
+            }
+        }, KeyCode.J);
+
+        getInput().addAction(new UserAction("Move espalha lixo para a direita!") {
+            @Override
+            protected void onActionBegin() {
+                enemy.getComponent(EnemyComponent.class).moveParaDireita();
+            }
+        }, KeyCode.K);
     }
 
 
@@ -158,12 +187,27 @@ public class Main extends GameApplication {
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
-        setLevelFromMap("tmx/map-remastered7.tmx");
+        setLevelFromMap("tmx/map-remastered777.tmx");
 
         //Invocando jogador
-        player = spawn("player", 0, 0);
+        player = spawn("player", 0, 600);
 
-        enemy = spawn("enemy", 0, 0);
+        enemy = spawn("enemy", 0, 600);
+
+
+        // Ajustar o amortecimento linear do corpo físico para evitar o quique
+        // deixa o personagem planando quando pula
+
+        // PIOLIN
+        Body bodyPiolin = player.getComponent(PhysicsComponent.class).getBody();
+        bodyPiolin.setLinearDamping(10.0f);
+
+        // Espalha Lixo
+        Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
+        bodyEspalhaLixo.setLinearDamping(10.0f);
+
+
+
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
@@ -171,6 +215,35 @@ public class Main extends GameApplication {
         viewport.bindToEntity(player, getAppWidth() / 2, 450);
         viewport.setZoom(2.5);
         viewport.setLazy(true);
+
+
+        var emitter = ParticleEmitters.newSparkEmitter();
+
+        emitter.setMaxEmissions(Integer.MAX_VALUE);
+        emitter.setNumParticles(50);
+        emitter.setEmissionRate(0.86);
+        emitter.setSize(1, 24);
+        emitter.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+        emitter.setExpireFunction(i -> Duration.seconds(2.5));
+        emitter.setAccelerationFunction(() -> Point2D.ZERO);
+        emitter.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
+
+
+        var emitter2 = ParticleEmitters.newExplosionEmitter(10);
+
+        emitter2.setMaxEmissions(Integer.MAX_VALUE);
+        emitter2.setNumParticles(2);
+        emitter2.setEmissionRate(0.86);
+        emitter2.setSize(1, 10);
+        emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+        emitter2.setExpireFunction(i -> Duration.seconds(2.5));
+        emitter2.setAccelerationFunction(() -> Point2D.ZERO);
+        emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
+
+
+
+        //enemy.addComponent(new ParticleComponent(emitter2));
+
     }
 
 
