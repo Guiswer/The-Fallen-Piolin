@@ -7,6 +7,7 @@ import com.almasb.fxgl.texture.AnimationChannel;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -31,6 +32,11 @@ public class EnemyComponent extends Component {
     private int life = 10;
     private Rectangle barra_de_vida = new Rectangle(100, 30, Color.BLUE);
     private double escalaDoPersonagem = 0.8;
+    private boolean metodoPararFoiUtilizado = false;
+    private double guardaUltimaMovimentacao = 0.00;
+
+    private int velocidadeDoPersonagem = 180;
+
     private boolean tiroEmEspera = false;
 
     private Timer tarefaDeMovimentacaoAleatoria;
@@ -55,6 +61,20 @@ public class EnemyComponent extends Component {
         barra_de_vida.setY(100);
         getGameScene().addUINode(barra_de_vida);
 
+        Image imagemBarra = new Image("assets/textures/life-bar.png");
+
+        // Cria uma ImageView com a imagem carregada
+        ImageView imagemBarraView = new ImageView(imagemBarra);
+
+        // Define algumas propriedades da ImageView, se necessário
+        imagemBarraView.setFitWidth(200);
+        imagemBarraView.setFitHeight(200);
+        imagemBarraView.setPreserveRatio(true);
+
+
+        getGameScene().addUINode(imagemBarraView);
+
+
 
         // Definindo movimentação aleatória
         tarefaDeMovimentacaoAleatoria = new Timer();
@@ -64,7 +84,7 @@ public class EnemyComponent extends Component {
                 System.out.println("Executando tarefa...");
                 movimentacaoAleatoria();
             }
-        }, 0, 5000);
+        }, 1000, 3000);
     }
 
     @Override
@@ -75,6 +95,19 @@ public class EnemyComponent extends Component {
         // Escala do personagem
         entity.setScaleX(escalaDoPersonagem);
         entity.setScaleY(escalaDoPersonagem);
+
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+       
+        if (!metodoPararFoiUtilizado) {
+            if(guardaUltimaMovimentacao > 0) {
+                physics.setVelocityX(velocidadeDoPersonagem);
+            } else {
+                physics.setVelocityX(-velocidadeDoPersonagem);
+            }
+        }
 
     }
 
@@ -107,15 +140,28 @@ public class EnemyComponent extends Component {
 
     public void moveParaEsquerda() {
         getEntity().setScaleX(-escalaDoPersonagem);
-        physics.setVelocityX(-170);
+        physics.setVelocityX(-velocidadeDoPersonagem);
+        guardaUltimaMovimentacao = -velocidadeDoPersonagem;
     }
 
     public void moveParaDireita() {
         getEntity().setScaleX(escalaDoPersonagem);
-        physics.setVelocityX(170);
+        physics.setVelocityX(velocidadeDoPersonagem);
+        guardaUltimaMovimentacao = velocidadeDoPersonagem;
     }
 
     public void pararPersonagem() {
+        metodoPararFoiUtilizado = true;
+
+        Timer timer = new Timer();
+        long delay = 400;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                metodoPararFoiUtilizado = false;
+            }
+        };
+        timer.schedule(task, delay);
         physics.setVelocityX(0);
     }
 

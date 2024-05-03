@@ -13,6 +13,8 @@ import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.Body;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
@@ -61,12 +63,17 @@ public class MainFactory implements EntityFactory {
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
 
-
+        PhysicsComponent physics = new PhysicsComponent();
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
+        fd.setFriction(0);
+        physics.setFixtureDef(fd);
 
         return entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
-                .with(new PhysicsComponent())
+                .with(physics)
                 .build();
     }
     @Spawns("platform-diagonal")
@@ -167,7 +174,6 @@ public class MainFactory implements EntityFactory {
         } else {
             espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
         }
-
         espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
 
         // Direção do projetil
@@ -195,8 +201,17 @@ public class MainFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
+
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
         // Evita que o jogador grude nas paredes
-        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        fd.setFriction(0);
+
+
+        physics.setFixtureDef(fd);
+
+
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
@@ -229,8 +244,15 @@ public class MainFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
+
+        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        FixtureDef fd = new FixtureDef();
+        fd.setRestitution(0);
+
         // Evita que o jogador grude nas paredes
-        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        fd.setFriction(0);
+
+        physics.setFixtureDef(fd);
 
         return FXGL.entityBuilder(data)
                 .type(ENEMY)

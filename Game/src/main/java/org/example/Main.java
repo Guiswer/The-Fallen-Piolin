@@ -11,6 +11,7 @@ import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.app.scene.LoadingScene;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.app.scene.Viewport;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.core.util.LazyValue;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -20,7 +21,10 @@ import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.view.KeyView;
 import com.almasb.fxgl.input.virtual.VirtualButton;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.Body;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -71,8 +75,6 @@ public class Main extends GameApplication {
         //settings.getCollisionDetectionStrategy();
         //settings.getEnabledMenuItems();
     }
-
-
 
 /*
     Método responsável por criar os atalhos das teclas
@@ -193,15 +195,18 @@ public class Main extends GameApplication {
         enemy = spawn("enemy", 0, 600);
 
 
-        Image image = new Image("assets/textures/life-bar.png");
+        // Ajustar o amortecimento linear do corpo físico para evitar o quique
+        // deixa o personagem planando quando pula
 
-        // Cria uma ImageView com a imagem carregada
-        ImageView imageView = new ImageView(image);
+        // PIOLIN
+        Body bodyPiolin = player.getComponent(PhysicsComponent.class).getBody();
+        bodyPiolin.setLinearDamping(10.0f);
 
-        // Define algumas propriedades da ImageView, se necessário
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(200);
-        imageView.setPreserveRatio(true);
+        // Espalha Lixo
+        Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
+        bodyEspalhaLixo.setLinearDamping(10.0f);
+
+
 
 
         // Configurações de tela (viewport) para se vincular ao jogador
@@ -210,6 +215,35 @@ public class Main extends GameApplication {
         viewport.bindToEntity(player, getAppWidth() / 2, 450);
         viewport.setZoom(2.5);
         viewport.setLazy(true);
+
+
+        var emitter = ParticleEmitters.newSparkEmitter();
+
+        emitter.setMaxEmissions(Integer.MAX_VALUE);
+        emitter.setNumParticles(50);
+        emitter.setEmissionRate(0.86);
+        emitter.setSize(1, 24);
+        emitter.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+        emitter.setExpireFunction(i -> Duration.seconds(2.5));
+        emitter.setAccelerationFunction(() -> Point2D.ZERO);
+        emitter.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
+
+
+        var emitter2 = ParticleEmitters.newExplosionEmitter(10);
+
+        emitter2.setMaxEmissions(Integer.MAX_VALUE);
+        emitter2.setNumParticles(2);
+        emitter2.setEmissionRate(0.86);
+        emitter2.setSize(1, 10);
+        emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+        emitter2.setExpireFunction(i -> Duration.seconds(2.5));
+        emitter2.setAccelerationFunction(() -> Point2D.ZERO);
+        emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
+
+
+
+        //enemy.addComponent(new ParticleComponent(emitter2));
+
     }
 
 
