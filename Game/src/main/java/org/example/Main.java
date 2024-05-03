@@ -39,6 +39,8 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
 
+    private Entity enemy;
+
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
     @Override
@@ -125,7 +127,7 @@ public class Main extends GameApplication {
     @Override
     protected void onPreInit() {
         // Modificando volume inicial
-        getSettings().setGlobalMusicVolume(0.03);
+        getSettings().setGlobalMusicVolume(0.01);
         // Definindo som de fundo
         loopBGM("you_won_the_battle_but_not_the_war.wav");
     }
@@ -151,22 +153,23 @@ public class Main extends GameApplication {
         //if (player != null) {
         //    player.getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
         //    player.setZIndex(Integer.MAX_VALUE);
-        //}
+        //
 
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
-        setLevelFromMap("tmx/mapa.tmx");
+        setLevelFromMap("tmx/map-remastered7.tmx");
 
         //Invocando jogador
         player = spawn("player", 0, 0);
 
+        enemy = spawn("enemy", 0, 0);
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
-       // viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
-        viewport.bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
-        viewport.setZoom(2);
+        viewport.setBounds(-1500, -200, 2560, 1200);
+        viewport.bindToEntity(player, getAppWidth() / 2, 450);
+        viewport.setZoom(2.5);
         viewport.setLazy(true);
     }
 
@@ -183,9 +186,9 @@ public class Main extends GameApplication {
         getPhysicsWorld().setGravity(0, 760);
 
         // Definindo a colisão da pena com o inimigo
-        onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet, enemy) -> {
+        onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet,a) -> {
             bullet.removeFromWorld();
-            enemy.removeFromWorld();
+            enemy.getComponent(EnemyComponent.class).tomaDano();
         });
     }
 

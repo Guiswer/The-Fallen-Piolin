@@ -1,11 +1,10 @@
 package org.example;
 
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
-import com.almasb.fxgl.texture.AnimationChannelData;
+
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -33,7 +32,7 @@ public class PlayerComponent extends Component {
     //Colocar o jogador em tempo de espera para evitar tiros simultaneos
     private boolean shootInCooldown = false;
     //Definindo limite de pulos do jogador
-    private int jumps = 2;
+    private int jumps = 4000;
 
     // Construtor da classe
     public PlayerComponent() {
@@ -59,8 +58,8 @@ public class PlayerComponent extends Component {
         entity.getViewComponent().addChild(texture);
 
         // Escala do personagem
-        entity.setScaleX(0.5);
-        entity.setScaleY(0.5);
+        entity.setScaleX(0.4);
+        entity.setScaleY(0.4);
 
         // Adicionando ouvinte (listener) para capturar o momento do jogador encostando no chão
         // e recarregar os pulos
@@ -93,13 +92,13 @@ public class PlayerComponent extends Component {
 
     //Mover para a esquerda
     public void left() {
-        getEntity().setScaleX(-0.5);
+        getEntity().setScaleX(-0.4);
         physics.setVelocityX(-170);
     }
 
     //Mover para a direita
     public void right() {
-        getEntity().setScaleX(0.5);
+        getEntity().setScaleX(0.4);
         physics.setVelocityX(170);
     }
 
@@ -114,6 +113,7 @@ public class PlayerComponent extends Component {
     public void jump() {
         if (jumps == 0)
             return;
+
 
         physics.setVelocityY(-400);
 

@@ -59,6 +59,9 @@ public class MainFactory implements EntityFactory {
      */
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
+
+        //System.out.println(data.<Float>get("rotation"));
+
         return entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
@@ -71,6 +74,7 @@ public class MainFactory implements EntityFactory {
     @Spawns("")
     public Entity newPl(SpawnData data) {
         return entityBuilder()
+                .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
                 .build();
@@ -103,13 +107,13 @@ public class MainFactory implements EntityFactory {
         double featheProjectileDirectionX = player.getCenter().getX();
         double featherOriginDirectionY = player.getCenter().getY() - 35;
         double featherOriginDirectionX = featheProjectileDirectionX;
-        double changeableScaleFeatherYByPlayerDirectionX = 1;
+        double changeableScaleFeatherYByPlayerDirectionX = 0.5;
 
         // Regra para obter a direção que o personagem está direcionado
         if (player.getScaleX() < 0) {
             featheProjectileDirectionX = -player.getCenter().getX();
             featherOriginDirectionX -= 80;
-            changeableScaleFeatherYByPlayerDirectionX = -1;
+            changeableScaleFeatherYByPlayerDirectionX = -0.5;
         }
 
         // Direção do projetil
@@ -122,9 +126,48 @@ public class MainFactory implements EntityFactory {
                 .collidable()
                 .with(new ProjectileComponent(direction, 1000))
                 .with(new OffscreenCleanComponent())
-                .scale(1, changeableScaleFeatherYByPlayerDirectionX)
+                .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
                 .build();
     }
+
+    @Spawns("tiroDoEspalhaLixo")
+    public Entity newTiroDoEspalhaLixo(SpawnData data) {
+        // Obtém a entidade do jogador para saber a posição de onde
+        // será lançada a pena
+        Entity EspalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
+        Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
+        double playerPosicaoX = player.getPosition().getX();
+
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
+        // PS: Foi mal geuntiiiii!
+        double featheProjectileDirectionX = EspalhaLixo.getCenter().getX();
+        double featherOriginDirectionY = EspalhaLixo.getCenter().getY() - 35;
+        double featherOriginDirectionX = featheProjectileDirectionX;
+        double changeableScaleFeatherYByPlayerDirectionX = 0.5;
+
+        // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
+        if (EspalhaLixo.getPosition().getX() > playerPosicaoX) {
+            featheProjectileDirectionX = -EspalhaLixo.getCenter().getX();
+            featherOriginDirectionX -= 80;
+            changeableScaleFeatherYByPlayerDirectionX = -0.5;
+        }
+
+        // Direção do projetil
+        Point2D direction = new Point2D(featheProjectileDirectionX, 0);
+
+        return  entityBuilder()
+                .at(featherOriginDirectionX, featherOriginDirectionY)
+                .type(FEATHER)
+                .viewWithBBox("normal_feather.png")
+                .collidable()
+                .with(new ProjectileComponent(direction, 1000))
+                .with(new OffscreenCleanComponent())
+                .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
+                .build();
+    }
+
+
+
 
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
@@ -132,6 +175,7 @@ public class MainFactory implements EntityFactory {
         // Obtendo um componente de física específico para o jogador
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
+        physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
         // Evita que o jogador grude nas paredes
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
@@ -157,6 +201,30 @@ public class MainFactory implements EntityFactory {
                  SEPARADA POR TER DIVERSOS RECURSOS QUE AS DEMAIS ENTIDADE NÃO PRECISAM!
                  */
                 .with(new PlayerComponent())
+                .build();
+    }
+
+    @Spawns("enemy")
+    public Entity newEnemy(SpawnData data) {
+// Obtendo um componente de física específico para o jogador
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.DYNAMIC);
+        physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
+
+        // Evita que o jogador grude nas paredes
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+
+        return FXGL.entityBuilder(data)
+                .type(ENEMY)
+                //Piolin
+                .bbox(new HitBox(new Point2D(25,10), BoundingShape.box(15, 50)))
+                .with(physics)
+                // Componente possivel de colisão
+                .with(new CollidableComponent(true))
+
+                //Sensor para verificar proximidade do PIOLIN
+                .with(new SensorComponent())
+                .with(new EnemyComponent())
                 .build();
     }
 }
