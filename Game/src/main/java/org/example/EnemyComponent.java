@@ -63,7 +63,7 @@ public class EnemyComponent extends Component {
     }
 
     public void atirar() {
-        System.out.println("Espalha lixo atirou!");
+        //System.out.println("Espalha lixo atirou!");
         if(!tiroEmEspera) {
             spawn("tiroDoEspalhaLixo");
             tiroEmEspera = true;

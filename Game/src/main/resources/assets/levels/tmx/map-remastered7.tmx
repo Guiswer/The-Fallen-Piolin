@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="66">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="84">
  <tileset firstgid="1" name="tiles_piolin" tilewidth="16" tileheight="16" tilecount="625" columns="25">
-  <image source="../../../../../../../../The-Fallen-Piolin-alternative/src/main/resources/assets/levels/tmx/tiles_piolin.png" width="400" height="400"/>
+  <image source="tiles_piolin.png" width="400" height="400"/>
  </tileset>
  <layer id="9" name="lower-down-above" width="160" height="50" locked="1">
   <data encoding="csv">
@@ -397,14 +397,22 @@
   <object id="42" type="platform" x="865.512" y="672.175" width="21.2011" height="64.1513" rotation="57"/>
   <object id="44" type="platform" x="900.348" y="690.455" width="21.2011" height="64.1513" rotation="-57"/>
   <object id="45" type="platform" x="559.975" y="706.704" width="21.2011" height="37.0153" rotation="120"/>
-  <object id="46" type="platform" x="367.566" y="709.916" width="21.2011" height="37.9166" rotation="124.579"/>
-  <object id="47" type="platform" x="450.937" y="688.176" width="21.2011" height="38.0111" rotation="61"/>
   <object id="48" type="platform" x="1280.83" y="739.022" width="21.2011" height="68.02" rotation="-117"/>
   <object id="49" type="platform" x="1500.67" y="720.1" width="21.2011" height="68.02" rotation="117"/>
   <object id="50" type="platform" x="1850.46" y="724.88" width="21.2011" height="37.6013" rotation="-117"/>
   <object id="51" type="platform" x="2056.4" y="709.199" width="21.2011" height="37.6013" rotation="-117"/>
   <object id="52" type="platform" x="2244.87" y="715.443" width="21.2011" height="94.432" rotation="117"/>
-  <object id="63" type="platform" x="209.244" y="572.209" width="100" height="28" rotation="24.9588"/>
+  <object id="63" type="platform-diagonal" x="209.244" y="572.209" width="100" height="28" rotation="24.9588"/>
   <object id="65" type="platform" x="96.1632" y="493.8" width="125.333" height="22.6667" rotation="90"/>
+  <object id="68" x="356" y="525.333">
+   <polygon points="0,0 -125.333,-20 -13.3333,70.6667"/>
+  </object>
+  <object id="69" type="platform-diagonal" x="325.788" y="699.672" width="53.0061" height="28" rotation="28.4345"/>
+  <object id="78" type="platform" x="403" y="702.25" width="20.5" height="21.5"/>
+  <object id="79" type="platform" x="409.75" y="700.5" width="20.5" height="21.5"/>
+  <object id="80" type="platform" x="419.75" y="695.75" width="20.5" height="21.5"/>
+  <object id="81" type="platform" x="425" y="693.5" width="20.5" height="21.5"/>
+  <object id="82" type="platform" x="435.75" y="690.25" width="20.5" height="21.5"/>
+  <object id="83" type="platform" x="414.5" y="698.25" width="20.5" height="21.5"/>
  </objectgroup>
 </map>

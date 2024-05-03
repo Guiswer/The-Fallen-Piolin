@@ -22,6 +22,9 @@ import com.almasb.fxgl.input.view.KeyView;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
@@ -166,12 +169,25 @@ public class Main extends GameApplication {
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
-        setLevelFromMap("tmx/map-remastered7.tmx");
+        setLevelFromMap("tmx/map-remastered777.tmx");
 
         //Invocando jogador
         player = spawn("player", 0, 0);
 
         enemy = spawn("enemy", 0, 0);
+
+
+        Image image = new Image("assets/textures/life-bar.png");
+
+        // Cria uma ImageView com a imagem carregada
+        ImageView imageView = new ImageView(image);
+
+        // Define algumas propriedades da ImageView, se necessário
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        imageView.setPreserveRatio(true);
+
+        getGameScene().addUINode(imageView);
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();

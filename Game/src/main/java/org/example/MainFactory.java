@@ -18,6 +18,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
@@ -61,7 +62,6 @@ public class MainFactory implements EntityFactory {
     public Entity newPlatform(SpawnData data) {
 
 
-        //System.out.println(data.<Float>get("rotation"));
 
         return entityBuilder()
                 .type(PLATFORM)
@@ -69,11 +69,23 @@ public class MainFactory implements EntityFactory {
                 .with(new PhysicsComponent())
                 .build();
     }
+    @Spawns("platform-diagonal")
+    public Entity newPlatfawdorm(SpawnData data) {
 
-    // Improvisando spawn como nome vazio, para evitar erros no momento de gerar a camada de objetos do mapa
-    // ESTE MÉTODO DEVE SER REMOVIDO POSTERIORMENTE, QUANDO O MOTIVO DO ERROR FOR ENCONTRADO!
+        return  entityBuilder()
+                .type(PLATFORM)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .build();
+    }
+
     @Spawns("")
-    public Entity newPl(SpawnData data) {
+    public Entity newPlaatfawdorm(SpawnData data) {
+
+        System.out.println("POLIGONO");
+        System.out.println( data.getData());
+        System.out.println( data.getData().toString());
+
         return entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))

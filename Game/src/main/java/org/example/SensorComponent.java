@@ -12,7 +12,7 @@ public class SensorComponent extends Component {
 
             //System.out.println("awjdiawdiuanbwduiabwdiubawub");
             if (getEntity().distance(player) < 100) {
-                System.out.println("PERTINHO");
+                //System.out.println("PERTINHO");
 
                 getEntity().getComponent(EnemyComponent.class).atirar();
 
