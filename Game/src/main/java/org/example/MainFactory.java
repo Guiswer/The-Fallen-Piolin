@@ -147,22 +147,26 @@ public class MainFactory implements EntityFactory {
     public Entity newTiroDoEspalhaLixo(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
-        Entity EspalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
+        Entity espalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
         Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
         double playerPosicaoX = player.getPosition().getX();
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
-        // PS: Foi mal geuntiiiii!
-        double featheProjectileDirectionX = EspalhaLixo.getCenter().getX();
-        double featherOriginDirectionY = EspalhaLixo.getCenter().getY() - 35;
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO
+        double featheProjectileDirectionX = espalhaLixo.getCenter().getX();
+        double featherOriginDirectionY = espalhaLixo.getCenter().getY() - 35;
         double featherOriginDirectionX = featheProjectileDirectionX;
         double changeableScaleFeatherYByPlayerDirectionX = 0.5;
 
+
+
         // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
-        if (EspalhaLixo.getPosition().getX() > playerPosicaoX) {
-            featheProjectileDirectionX = -EspalhaLixo.getCenter().getX();
+        if (espalhaLixo.getPosition().getX() > playerPosicaoX) {
+            featheProjectileDirectionX = -espalhaLixo.getCenter().getX();
             featherOriginDirectionX -= 80;
             changeableScaleFeatherYByPlayerDirectionX = -0.5;
+            espalhaLixo.getComponent(EnemyComponent.class).moveParaEsquerda();
+        } else {
+            espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
         }
 
         // Direção do projetil

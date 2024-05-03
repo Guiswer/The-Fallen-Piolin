@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -43,6 +44,7 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
     private Entity enemy;
+    private Rectangle barra_de_vida = new Rectangle(120, 30, Color.BLUE);
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
@@ -129,6 +131,21 @@ public class Main extends GameApplication {
                 FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
             }
         }, KeyCode.F);
+
+        getInput().addAction(new UserAction("Move espalha lixo para a esquerda!") {
+            @Override
+            protected void onActionBegin() {
+
+                enemy.getComponent(EnemyComponent.class).moveParaEsquerda();
+            }
+        }, KeyCode.J);
+
+        getInput().addAction(new UserAction("Move espalha lixo para a direita!") {
+            @Override
+            protected void onActionBegin() {
+                enemy.getComponent(EnemyComponent.class).moveParaDireita();
+            }
+        }, KeyCode.K);
     }
 
 
@@ -172,9 +189,9 @@ public class Main extends GameApplication {
         setLevelFromMap("tmx/map-remastered777.tmx");
 
         //Invocando jogador
-        player = spawn("player", 0, 0);
+        player = spawn("player", 0, 600);
 
-        enemy = spawn("enemy", 0, 0);
+        enemy = spawn("enemy", 0, 600);
 
 
         Image image = new Image("assets/textures/life-bar.png");
@@ -187,7 +204,10 @@ public class Main extends GameApplication {
         imageView.setFitHeight(200);
         imageView.setPreserveRatio(true);
 
-        getGameScene().addUINode(imageView);
+
+
+
+
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();

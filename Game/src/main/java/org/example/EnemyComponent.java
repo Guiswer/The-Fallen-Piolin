@@ -7,11 +7,15 @@ import com.almasb.fxgl.texture.AnimationChannel;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
@@ -22,9 +26,9 @@ public class EnemyComponent extends Component {
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
-
     private int life = 10;
-
+    private Rectangle barra_de_vida = new Rectangle(100, 30, Color.BLUE);
+    private double escalaDoPersonagem = 0.8;
     private boolean tiroEmEspera = false;
 
     public EnemyComponent() {
@@ -32,15 +36,20 @@ public class EnemyComponent extends Component {
         // Definindo o PNG com os quadros (frames) de animação
         Image image = image("whole-espalha-lixot.png");
         // Definindo animação para jogador parado
-        animIdle = new AnimationChannel(image, 1, 64, 64, Duration.seconds(1), 0, 0);
+        animIdle = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 0, 0);
         // Definindo animação para jogador andando
-        animWalk = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 0, 5);
+        animWalk = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 4, 5);
 
         // Colocando a primeira textura do jogodor ao ser invocado
         // animIdle = parado
         texture = new AnimatedTexture(animWalk);
         // Loop para gerar a animação
         texture.loop();
+
+        //BARRA DE VIDA
+        barra_de_vida.setX(100);
+        barra_de_vida.setY(100);
+        getGameScene().addUINode(barra_de_vida);
     }
 
     @Override
@@ -49,14 +58,15 @@ public class EnemyComponent extends Component {
         entity.getViewComponent().addChild(texture);
 
         // Escala do personagem
-        entity.setScaleX(0.8);
-        entity.setScaleY(0.8);
+        entity.setScaleX(escalaDoPersonagem);
+        entity.setScaleY(escalaDoPersonagem);
 
     }
 
     public void tomaDano() {
         System.out.println("Vida do Espalha Lixo: " + life);
         life--;
+        barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
         if (life <= 0 ) {
             entity.removeFromWorld();
         }
@@ -78,5 +88,23 @@ public class EnemyComponent extends Component {
             };
             timer.schedule(task, delay);
         }
+    }
+
+    public void moveParaEsquerda() {
+        getEntity().setScaleX(-escalaDoPersonagem);
+        physics.setVelocityX(-170);
+    }
+
+    public void moveParaDireita() {
+        getEntity().setScaleX(escalaDoPersonagem);
+        physics.setVelocityX(170);
+    }
+
+
+    public void movimentacaoAleatoria() {
+        Random random = new Random();
+
+        // Gerar um número inteiro aleatório entre 0 e 100
+        int randomNumber = random.nextInt(101);
     }
 }
