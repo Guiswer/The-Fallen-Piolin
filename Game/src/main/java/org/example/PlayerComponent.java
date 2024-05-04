@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.example.utilitarios.FimDeJogo;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -187,38 +188,7 @@ public class PlayerComponent extends Component {
 
         if (vida <= 0 ) {
             // GAME OVER!
-
-            getGameController().pauseEngine();
-            Rectangle barra_de_vida = new Rectangle(260, 50, Color.DARKORANGE);
-            barra_de_vida.setX(getAppWidth()/2 - 130);
-            barra_de_vida.setY(300);
-
-            Button btn = new Button("FECHAR");
-            btn.setTranslateX(getAppWidth()/2 - 125);
-            btn.setTranslateY(300);
-            btn.setBackground(Background.fill(Color.ORANGE));
-            btn.setPrefWidth(250); // Define a largura do botão para 200 pixels
-            btn.setPrefHeight(40); // Define a altura do botão para 100 pixels
-
-
-            EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e)
-                {
-                    FXGL.getGameController().exit();
-                }
-            };
-
-            btn.setOnAction(event);
-
-            Text textOptions = FXGL.getUIFactoryService().newText("DERROTA!", Color.WHITE, FontType.GAME, 54);
-            textOptions.setTranslateX(getAppWidth()/2 - 100);
-
-            textOptions.setTranslateY(290);
-            textOptions.setMouseTransparent(true);
-
-            getGameScene().addUINode(barra_de_vida);
-            getGameScene().addUINode(btn);
-            getGameScene().addUINode(textOptions);
+            FimDeJogo.terminar();
         }
     }
 }

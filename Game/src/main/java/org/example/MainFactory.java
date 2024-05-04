@@ -1,5 +1,6 @@
 package org.example;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -10,6 +11,9 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -18,6 +22,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
@@ -85,10 +90,22 @@ public class MainFactory implements EntityFactory {
     @Spawns("objetoCombustivel")
     public Entity newObjetoCombustivel(SpawnData data) {
 
+        ParticleEmitter emissorDeParticula = ParticleEmitters.newFireEmitter();
+
+        emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
+        emissorDeParticula.setNumParticles(0);
+        emissorDeParticula.setEmissionRate(10);
+        emissorDeParticula.setSize(1, 3);
+        emissorDeParticula.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.001));
+        emissorDeParticula.setExpireFunction(i -> Duration.seconds(2.5));
+        emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
+
         return  entityBuilder()
                 .type(OBJETO_COMBUSTIVEL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new CollidableComponent(true))
+                .with(new ObjetoCombustivelComponente())
+                .with(new ParticleComponent(emissorDeParticula))
                 .build();
     }
 
