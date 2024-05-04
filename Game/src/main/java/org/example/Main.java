@@ -303,6 +303,25 @@ public class Main extends GameApplication {
             tiro.removeFromWorld();
             player.getComponent(PlayerComponent.class).tomaDano();
         });
+
+        onCollisionBegin(EntityType.FEATHER, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
+            tiro.removeFromWorld();
+
+            System.out.println("Acertou objeto combustivel");
+
+            var emitter2 = ParticleEmitters.newExplosionEmitter(10);
+
+            emitter2.setMaxEmissions(Integer.MAX_VALUE);
+            emitter2.setNumParticles(2);
+            emitter2.setEmissionRate(0.86);
+            emitter2.setSize(1, 2);
+            emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+            emitter2.setExpireFunction(i -> Duration.seconds(2.5));
+            emitter2.setAccelerationFunction(() -> Point2D.ZERO);
+            emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 15)));
+
+            objetoCombustivel.addComponent(new ParticleComponent(emitter2));
+        });
     }
 
 

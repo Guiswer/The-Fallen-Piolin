@@ -61,7 +61,7 @@ public class MainFactory implements EntityFactory {
         não sendo ligado literalmente com as plataformas visuais do mapa!
      */
     @Spawns("platform")
-    public Entity newPlatform(SpawnData data) {
+    public Entity newPlataforma(SpawnData data) {
 
         PhysicsComponent physics = new PhysicsComponent();
         // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
@@ -77,12 +77,22 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
     @Spawns("platform-diagonal")
-    public Entity newPlatfawdorm(SpawnData data) {
+    public Entity newPlataformaDiagonal(SpawnData data) {
 
         return  entityBuilder()
                 .type(PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
+                .build();
+    }
+
+    @Spawns("objetoCombustivel")
+    public Entity newObjetoCombustivel(SpawnData data) {
+
+        return  entityBuilder()
+                .type(OBJETO_COMBUSTIVEL)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .with(new CollidableComponent(true))
                 .build();
     }
 
@@ -189,8 +199,6 @@ public class MainFactory implements EntityFactory {
                 .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
                 .build();
     }
-
-
 
 
     @Spawns("player")

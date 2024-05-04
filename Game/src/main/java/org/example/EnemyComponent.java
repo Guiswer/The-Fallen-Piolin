@@ -1,22 +1,28 @@
 package org.example;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+
+import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
+import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -30,7 +36,7 @@ public class EnemyComponent extends Component {
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
     private int life = 10;
-    private Rectangle barra_de_vida = new Rectangle(100, 30, Color.BLUE);
+    private Rectangle barra_de_vida;
     private double escalaDoPersonagem = 0.8;
     private boolean metodoPararFoiUtilizado = false;
     private double guardaUltimaMovimentacao = 0.00;
@@ -56,25 +62,25 @@ public class EnemyComponent extends Component {
         // Loop para gerar a animação
         texture.loop();
 
-        //BARRA DE VIDA
-        barra_de_vida.setX(100);
-        barra_de_vida.setY(100);
+
+
+        // Definindo imagem de borda para a barra de vida do Espalha Lixo
+        Image imagemBarraDeVidaDiretorio = new Image("assets/textures/barra_de_vida_espalha_lixo.png");
+        ImageView imagemBarraDeVida = new ImageView(imagemBarraDeVidaDiretorio);
+        imagemBarraDeVida.setFitHeight(38);
+
+        imagemBarraDeVida.setX(getAppWidth() - 200);
+        imagemBarraDeVida.setY(50);
+        imagemBarraDeVida.setPreserveRatio(true);
+
+        getGameScene().addUINode(imagemBarraDeVida);
+
+        // Barra de vida dinâmica
+        barra_de_vida = new Rectangle(100, 30, Color.DARKRED);
+        barra_de_vida.setX(getAppWidth() - 164);
+        barra_de_vida.setY(54);
+
         getGameScene().addUINode(barra_de_vida);
-
-        Image imagemBarra = new Image("assets/textures/life-bar.png");
-
-        // Cria uma ImageView com a imagem carregada
-        ImageView imagemBarraView = new ImageView(imagemBarra);
-
-        // Define algumas propriedades da ImageView, se necessário
-        imagemBarraView.setFitWidth(200);
-        imagemBarraView.setFitHeight(200);
-        imagemBarraView.setPreserveRatio(true);
-
-
-        getGameScene().addUINode(imagemBarraView);
-
-
 
         // Definindo movimentação aleatória
         tarefaDeMovimentacaoAleatoria = new Timer();
