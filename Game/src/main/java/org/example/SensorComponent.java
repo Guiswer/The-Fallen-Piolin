@@ -8,7 +8,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 public class SensorComponent extends Component {
         @Override
         public void onUpdate(double tpf) {
-            Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
+            Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
             //System.out.println("awjdiawdiuanbwduiabwdiubawub");
             if (getEntity().distance(player) < 100) {

@@ -163,6 +163,24 @@ public class PlayerComponent extends Component {
         }
     }
 
+    public void dispararAgua() {
+
+        if(!shootInCooldown) {
+            spawn("disparo_de_agua");
+            shootInCooldown = true;
+
+            Timer timer = new Timer();
+            long delay = 400;
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    shootInCooldown = false;
+                }
+            };
+            timer.schedule(task, delay);
+        }
+    }
+
     public void tomaDano() {
         vida--;
         barra_de_vida.setWidth(barra_de_vida.getWidth()-10);

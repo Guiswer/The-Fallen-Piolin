@@ -381,7 +381,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="13" name="objetosCombustiveis">
+ <objectgroup id="13" name="objetosCombustiveis" visible="0" locked="1">
   <object id="86" type="objetoCombustivel" x="768" y="656" width="16" height="48"/>
   <object id="89" type="objetoCombustivel" x="496" y="656" width="16" height="32"/>
   <object id="90" type="objetoCombustivel" x="176" y="640" width="16" height="48"/>
@@ -391,7 +391,7 @@
   <object id="94" type="objetoCombustivel" x="624" y="672" width="32" height="32"/>
   <object id="95" type="objetoCombustivel" x="272" y="656" width="32" height="32"/>
  </objectgroup>
- <objectgroup id="11" name="tangibilidade" locked="1">
+ <objectgroup id="11" name="tangibilidade">
   <object id="9" type="platform" x="0.666667" y="688.333" width="335.333" height="15.6667"/>
   <object id="13" type="platform" x="336.182" y="704.182" width="111.818" height="15.8182"/>
   <object id="15" type="platform" x="450.273" y="688" width="77.7273" height="16"/>
@@ -414,7 +414,7 @@
   <object id="78" type="platform" x="1290.25" y="707.63" width="50" height="15.75" rotation="-45"/>
   <object id="79" type="platform" x="2045.67" y="687.29" width="50" height="15.75" rotation="-45"/>
   <object id="80" type="platform" x="2146.82" y="688.14" width="62.6459" height="15.75" rotation="33.9271"/>
-  <object id="84" x="2540.67" y="314.333" width="19" height="408.667"/>
+  <object id="84" type="parede_limite_do_mapa" x="2540.67" y="314.333" width="19" height="408.667"/>
   <object id="85" x="-19.3333" y="275.667" width="22.6667" height="428.333" visible="0"/>
  </objectgroup>
 </map>
