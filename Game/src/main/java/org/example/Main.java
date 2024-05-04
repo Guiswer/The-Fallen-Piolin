@@ -3,46 +3,22 @@ package org.example;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 
-import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.ApplicationMode;
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.*;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.core.util.LazyValue;
-import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.input.view.KeyView;
 import com.almasb.fxgl.input.virtual.VirtualButton;
 import com.almasb.fxgl.particle.ParticleComponent;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.Body;
 import com.almasb.fxgl.ui.FontType;
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -60,6 +36,7 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
     private Entity enemy;
+    private int vidaDaFloresta = 30;
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
@@ -137,34 +114,32 @@ public class Main extends GameApplication {
         }, KeyCode.W, VirtualButton.A);
 
         //Atirar penas com o personagem
-        getInput().addAction(new UserAction("Shoot") {
+        getInput().addAction(new UserAction("Disparar pena") {
             @Override
             protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).shoot();
             }
         }, MouseButton.PRIMARY);
 
+        getInput().addAction(new UserAction("Disparar água") {
+            @Override
+            protected void onActionBegin() {
+                player.getComponent(PlayerComponent.class).dispararAgua();
+            }
+        }, MouseButton.SECONDARY);
+
         getInput().addAction(new UserAction("PAUSE") {
             @Override
             protected void onActionBegin() {
 
                // FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
-
+                getGameController().pauseEngine();
             }
         }, KeyCode.F);
 
         getInput().addAction(new UserAction("RESUME") {
             @Override
             protected void onActionBegin() {
-
-                Text textResume = FXGL.getUIFactoryService().newText("RESUME", Color.WHITE, FontType.GAME, 24.0);
-                textResume.setTranslateX(50);
-                textResume.setTranslateY(100);
-                textResume.setMouseTransparent(true);
-
-
-
-
                 getGameController().resumeEngine();
             }
         }, KeyCode.G);
@@ -224,22 +199,24 @@ public class Main extends GameApplication {
         // Definindo o mapa
         setLevelFromMap("tmx/map-remastered777.tmx");
 
-        //Invocando jogador
-        player = spawn("player", 0, 600);
 
-        enemy = spawn("enemy", 0, 600);
-
-
-        // Ajustar o amortecimento linear do corpo físico para evitar o quique
-        // deixa o personagem planando quando pula
 
         // PIOLIN
+        player = spawn("player", 0, 600);
+        // Ajustar o amortecimento linear do corpo físico para evitar o quique
+        // deixa o personagem planando quando pula
         Body bodyPiolin = player.getComponent(PhysicsComponent.class).getBody();
         bodyPiolin.setLinearDamping(10.0f);
 
+
         // Espalha Lixo
+      /*  enemy = spawn("enemy", 0, 600);
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
-        bodyEspalhaLixo.setLinearDamping(10.0f);
+        bodyEspalhaLixo.setLinearDamping(10.0f);*/
+
+
+
+
 
 
 
@@ -294,15 +271,43 @@ public class Main extends GameApplication {
         getPhysicsWorld().setGravity(0, 760);
 
         // Definindo a colisão da pena com o inimigo
-        onCollisionBegin(EntityType.FEATHER, EntityType.ENEMY, (bullet,a) -> {
+        onCollisionBegin(EntityType.DISPARO_DE_PENA_JOGADOR, EntityType.ENEMY, (bullet, a) -> {
             bullet.removeFromWorld();
             enemy.getComponent(EnemyComponent.class).tomaDano();
         });
 
-        onCollisionBegin(EntityType.TIRO_INIMIGO, EntityType.PLAYER, (tiro, player) -> {
+        onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.JOGADOR, (tiro, player) -> {
             tiro.removeFromWorld();
             player.getComponent(PlayerComponent.class).tomaDano();
         });
+
+        onCollisionBegin(EntityType.DISPARO_DE_PENA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
+            tiro.removeFromWorld();
+
+            System.out.println("Acertou objeto combustivel");
+
+            /*var emitter2 = ParticleEmitters.newFireEmitter();
+
+            emitter2.setMaxEmissions(Integer.MAX_VALUE);
+            emitter2.setNumParticles(2);
+            emitter2.setEmissionRate(0.86);
+            emitter2.setSize(1, 2);
+            emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
+            emitter2.setExpireFunction(i -> Duration.seconds(2.5));
+            //emitter2.setAccelerationFunction(() -> Point2D.ZERO);
+            //emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 15)));
+            emitter2.setSpawnPointFunction(i -> new Point2D(10, 5));*/
+
+            //objetoCombustivel.addComponent(new ParticleComponent(emitter2));
+            objetoCombustivel.getComponent(ObjetoCombustivelComponente.class).tomaDano();
+        });
+
+        onCollisionBegin(EntityType.DISPARO_DE_AGUA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
+            tiro.removeFromWorld();
+            objetoCombustivel.getComponent(ObjetoCombustivelComponente.class).recuperarVida();
+        });
+
+
     }
 
 

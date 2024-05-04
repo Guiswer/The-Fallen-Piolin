@@ -1,5 +1,6 @@
 package org.example;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -10,18 +11,18 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
+import com.almasb.fxgl.particle.ParticleComponent;
+import com.almasb.fxgl.particle.ParticleEmitter;
+import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.Body;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
@@ -61,7 +62,7 @@ public class MainFactory implements EntityFactory {
         não sendo ligado literalmente com as plataformas visuais do mapa!
      */
     @Spawns("platform")
-    public Entity newPlatform(SpawnData data) {
+    public Entity newPlataforma(SpawnData data) {
 
         PhysicsComponent physics = new PhysicsComponent();
         // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
@@ -77,7 +78,7 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
     @Spawns("platform-diagonal")
-    public Entity newPlatfawdorm(SpawnData data) {
+    public Entity newPlataformaDiagonal(SpawnData data) {
 
         return  entityBuilder()
                 .type(PLATFORM)
@@ -86,12 +87,42 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("")
+    @Spawns("objetoCombustivel")
+    public Entity newObjetoCombustivel(SpawnData data) {
+
+        ParticleEmitter emissorDeParticula = ParticleEmitters.newFireEmitter();
+
+        emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
+        emissorDeParticula.setNumParticles(0);
+        emissorDeParticula.setEmissionRate(10);
+        emissorDeParticula.setSize(1, 3);
+        emissorDeParticula.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.001));
+        emissorDeParticula.setExpireFunction(i -> Duration.seconds(2.5));
+        emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
+
+        return  entityBuilder()
+                .type(OBJETO_COMBUSTIVEL)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .with(new CollidableComponent(true))
+                .with(new ObjetoCombustivelComponente())
+                .with(new ParticleComponent(emissorDeParticula))
+                .build();
+    }
+
+    @Spawns("parede_limite_do_mapa")
     public Entity newPlaatfawdorm(SpawnData data) {
+        return entityBuilder()
+                .type(PLATFORM)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .build();
+    }
+
+    @Spawns("")
+    public Entity newPlaawdatfawdorm(SpawnData data) {
 
         System.out.println("POLIGONO");
         System.out.println( data.getData());
-        System.out.println( data.getData().toString());
 
         return entityBuilder()
                 .type(PLATFORM)
@@ -120,33 +151,33 @@ public class MainFactory implements EntityFactory {
     public Entity newFeather(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
-        Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
+        Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
         // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
         // PS: Foi mal geuntiiiii!
-        double featheProjectileDirectionX = player.getCenter().getX();
-        double featherOriginDirectionY = player.getCenter().getY() - 35;
-        double featherOriginDirectionX = featheProjectileDirectionX;
-        double changeableScaleFeatherYByPlayerDirectionX = 0.5;
+        double direcaoDoProjetil = player.getCenter().getX();
+        double origemDoProjetilEixoY = player.getCenter().getY() - 35;
+        double origemDoProjetilEixoX = direcaoDoProjetil - 40;
+        double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.4;
 
-        // Regra para obter a direção que o personagem está direcionado
+        // Regra para disparo para a esquerda
         if (player.getScaleX() < 0) {
-            featheProjectileDirectionX = -player.getCenter().getX();
-            featherOriginDirectionX -= 80;
-            changeableScaleFeatherYByPlayerDirectionX = -0.5;
+            origemDoProjetilEixoX = direcaoDoProjetil - 45;
+            direcaoDoProjetil = -player.getCenter().getX();
+            mudaEscalaDaImagemParaDirecaoDoProjetil = -0.4;
         }
 
         // Direção do projetil
-        Point2D direction = new Point2D(featheProjectileDirectionX, 0);
+        Point2D direction = new Point2D(direcaoDoProjetil, 0);
 
         return  entityBuilder()
-                .at(featherOriginDirectionX, featherOriginDirectionY)
-                .type(FEATHER)
+                .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
+                .type(DISPARO_DE_PENA_JOGADOR)
                 .viewWithBBox("normal_feather.png")
                 .collidable()
                 .with(new ProjectileComponent(direction, 1000))
                 .with(new OffscreenCleanComponent())
-                .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
+                .scale(0.4, mudaEscalaDaImagemParaDirecaoDoProjetil)
                 .build();
     }
 
@@ -155,21 +186,21 @@ public class MainFactory implements EntityFactory {
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
         Entity espalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
-        Entity player = getGameWorld().getSingleton(EntityType.PLAYER);
+        Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
         double playerPosicaoX = player.getPosition().getX();
 
         // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO
-        double featheProjectileDirectionX = espalhaLixo.getCenter().getX();
-        double featherOriginDirectionY = espalhaLixo.getCenter().getY() - 35;
-        double featherOriginDirectionX = featheProjectileDirectionX;
-        double changeableScaleFeatherYByPlayerDirectionX = 0.5;
+        double direcaoDoProjetil = espalhaLixo.getCenter().getX();
+        double origemDoProjetilEixoY = espalhaLixo.getCenter().getY() - 35;
+        double origemDoProjetilEixoX = direcaoDoProjetil;
+        double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
 
 
-        // Regra para obter a direção que o Piolin está para direcionar a ele o tiro
+        // Regra para disparo para a esquerda
         if (espalhaLixo.getPosition().getX() > playerPosicaoX) {
-            featheProjectileDirectionX = -espalhaLixo.getCenter().getX();
-            featherOriginDirectionX -= 80;
-            changeableScaleFeatherYByPlayerDirectionX = -0.5;
+            direcaoDoProjetil = -espalhaLixo.getCenter().getX();
+            origemDoProjetilEixoX -= 80;
+            mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
             espalhaLixo.getComponent(EnemyComponent.class).moveParaEsquerda();
         } else {
             espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
@@ -177,20 +208,53 @@ public class MainFactory implements EntityFactory {
         espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
 
         // Direção do projetil
-        Point2D direction = new Point2D(featheProjectileDirectionX, 0);
+        Point2D direction = new Point2D(direcaoDoProjetil, 0);
 
         return  entityBuilder()
-                .at(featherOriginDirectionX, featherOriginDirectionY)
-                .type(TIRO_INIMIGO)
+                .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
+                .type(DISPARO_INIMIGO)
                 .viewWithBBox("normal_feather.png")
                 .collidable()
                 .with(new ProjectileComponent(direction, 1000))
                 .with(new OffscreenCleanComponent())
-                .scale(0.5, changeableScaleFeatherYByPlayerDirectionX)
+                .scale(0.5, mudaEscalaDaImagemParaDirecaoDoProjetil)
                 .build();
     }
 
 
+    @Spawns("disparo_de_agua")
+    public Entity newDisparoDeAgua(SpawnData data) {
+        // Obtém a entidade do jogador para saber a posição de onde
+        // será lançada a pena
+        Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
+
+        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
+        // PS: Foi mal geuntiiiii!
+        double direcaoDoProjetil = player.getCenter().getX();
+        double origemDoProjetilEixoY = player.getCenter().getY() - 80;
+        double origemDoProjetilEixoX = direcaoDoProjetil - 160;
+        double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.1;
+
+        // Regra para disparo para a esquerda
+        if (player.getScaleX() < 0) {
+            origemDoProjetilEixoX = direcaoDoProjetil - 160;
+            direcaoDoProjetil = -player.getCenter().getX();
+            mudaEscalaDaImagemParaDirecaoDoProjetil = -0.1;
+        }
+
+        // Direção do projetil
+        Point2D direction = new Point2D(direcaoDoProjetil, 0);
+
+        return  entityBuilder()
+                .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
+                .type(DISPARO_DE_AGUA_JOGADOR)
+                .viewWithBBox("waterD.png")
+                .collidable()
+                .with(new ProjectileComponent(direction, 1000))
+                .with(new OffscreenCleanComponent())
+                .scale(0.1, mudaEscalaDaImagemParaDirecaoDoProjetil)
+                .build();
+    }
 
 
     @Spawns("player")
@@ -214,7 +278,7 @@ public class MainFactory implements EntityFactory {
 
 
         return FXGL.entityBuilder(data)
-                .type(PLAYER)
+                .type(JOGADOR)
 
                 // PODE SER UTILIZADO DEPOIS PARA UM SEGUNDA HIT BOX REDONDA
                 // SIGNIFICANDO A CABEÇA DO PERSONAGEM

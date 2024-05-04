@@ -6,5 +6,5 @@ package org.example;
 // Enum para nomear cada tipo de entidade
 public enum EntityType {
 
-    PLAYER, PLATFORM, COIN, FEATHER, ENEMY, TIRO_INIMIGO
+    JOGADOR, DISPARO_DE_AGUA_JOGADOR, PLATFORM, COIN, DISPARO_DE_PENA_JOGADOR, ENEMY, DISPARO_INIMIGO, OBJETO_COMBUSTIVEL
 }
