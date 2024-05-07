@@ -35,7 +35,7 @@ public class EnemyComponent extends Component {
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
-    private int life = 10;
+    private int life =30;
     private Rectangle barra_de_vida;
     private double escalaDoPersonagem = 0.8;
     private boolean metodoPararFoiUtilizado = false;
@@ -120,7 +120,7 @@ public class EnemyComponent extends Component {
     public void tomaDano() {
         System.out.println("Vida do Espalha Lixo: " + life);
         life--;
-        barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
+        barra_de_vida.setWidth(barra_de_vida.getWidth()-3.33);
         if (life <= 0 ) {
             tarefaDeMovimentacaoAleatoria.cancel();
             entity.removeFromWorld();

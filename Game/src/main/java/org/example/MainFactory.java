@@ -22,7 +22,12 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import java.util.List;
+import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
@@ -90,6 +95,7 @@ public class MainFactory implements EntityFactory {
     @Spawns("objetoCombustivel")
     public Entity newObjetoCombustivel(SpawnData data) {
 
+        //Configurando partícula
         ParticleEmitter emissorDeParticula = ParticleEmitters.newFireEmitter();
 
         emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
@@ -100,11 +106,12 @@ public class MainFactory implements EntityFactory {
         emissorDeParticula.setExpireFunction(i -> Duration.seconds(2.5));
         emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
 
+
         return  entityBuilder()
                 .type(OBJETO_COMBUSTIVEL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new CollidableComponent(true))
-                .with(new ObjetoCombustivelComponente())
+                .with(new ObjetoCombustivelComponente(data.getX(), data.getY()))
                 .with(new ParticleComponent(emissorDeParticula))
                 .build();
     }
@@ -118,15 +125,28 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("")
-    public Entity newPlaawdatfawdorm(SpawnData data) {
 
+    @Spawns("poligono")
+    public Entity newPlaawdatfawawdorm(SpawnData data) {
+          /*
         System.out.println("POLIGONO");
-        System.out.println( data.getData());
+      for(Map.Entry<String, Object> entry : data.getData().entrySet()) {
+            String chave = entry.getKey();
+            Object valor = entry.getValue();
+            System.out.println("Chave: " + chave + ", Valor: " + valor);
+        }
+          //System.out.println(poly.getPoints().getClass());
+
+        System.out.println(data.<Object>get("polygon"));
+         */
+        Polygon poly = data.<Polygon>get("polygon");
+        List<Double> points = poly.getPoints();
 
         return entityBuilder()
                 .type(PLATFORM)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.polygon(points.get(0),
+                                points.get(1), points.get(2), points.get(3),
+                            points.get(4), points.get(5))))
                 .with(new PhysicsComponent())
                 .build();
     }
@@ -138,7 +158,18 @@ public class MainFactory implements EntityFactory {
     public Entity newCoin(SpawnData data) {
         return entityBuilder()
                 .type(COIN)
-                .viewWithBBox(new Circle(data.<Integer>get("width") / 2 , Color.GOLD))
+                .zIndex(2)
+                .viewWithBBox(new Circle(160/ 2 , Color.GOLD))
+                .with( new PhysicsComponent())
+                .build();
+    }
+
+    @Spawns("barra_de_vida_objeto_combustivel")
+    public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
+        return entityBuilder()
+                .zIndex(2)
+                .viewWithBBox(new Circle(30/ 2 , Color.GOLD))
+                .with(new PhysicsComponent())
                 .build();
     }
 
@@ -303,7 +334,7 @@ public class MainFactory implements EntityFactory {
 
     @Spawns("enemy")
     public Entity newEnemy(SpawnData data) {
-// Obtendo um componente de física específico para o jogador
+    // Obtendo um componente de física específico para o jogador
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));

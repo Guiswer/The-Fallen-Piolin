@@ -24,6 +24,7 @@ import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /*
  Classe principal para rodar o programa!
@@ -197,7 +198,7 @@ public class Main extends GameApplication {
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
-        setLevelFromMap("tmx/map-remastered777.tmx");
+        setLevelFromMap("tmx/map-remastered8.tmx");
 
 
 
@@ -208,12 +209,15 @@ public class Main extends GameApplication {
         Body bodyPiolin = player.getComponent(PhysicsComponent.class).getBody();
         bodyPiolin.setLinearDamping(10.0f);
 
-
         // Espalha Lixo
-      /*  enemy = spawn("enemy", 0, 600);
+        enemy = spawn("enemy", 0, 600);
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
-        bodyEspalhaLixo.setLinearDamping(10.0f);*/
+        bodyEspalhaLixo.setLinearDamping(10.0f);
 
+
+
+
+        enemy = spawn("barra_de_vida_objeto_combustivel", 0, -600);
 
 
 
