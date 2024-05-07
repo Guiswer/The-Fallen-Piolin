@@ -6,21 +6,20 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.scene.*;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.virtual.VirtualButton;
-import com.almasb.fxgl.particle.ParticleComponent;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.Body;
-import com.almasb.fxgl.ui.FontType;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
@@ -38,6 +37,8 @@ public class Main extends GameApplication {
     private Entity player;
     private Entity enemy;
     private int vidaDaFloresta = 30;
+
+    private Rectangle barra_vida_floresta;
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
@@ -214,14 +215,7 @@ public class Main extends GameApplication {
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
         bodyEspalhaLixo.setLinearDamping(10.0f);
 
-
-
-
-        enemy = spawn("barra_de_vida_objeto_combustivel", 0, -600);
-
-
-
-
+        Random random = new Random();
 
 
 
@@ -285,30 +279,15 @@ public class Main extends GameApplication {
             player.getComponent(PlayerComponent.class).tomaDano();
         });
 
-        onCollisionBegin(EntityType.DISPARO_DE_PENA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
+        onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
             tiro.removeFromWorld();
-
             System.out.println("Acertou objeto combustivel");
-
-            /*var emitter2 = ParticleEmitters.newFireEmitter();
-
-            emitter2.setMaxEmissions(Integer.MAX_VALUE);
-            emitter2.setNumParticles(2);
-            emitter2.setEmissionRate(0.86);
-            emitter2.setSize(1, 2);
-            emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
-            emitter2.setExpireFunction(i -> Duration.seconds(2.5));
-            //emitter2.setAccelerationFunction(() -> Point2D.ZERO);
-            //emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 15)));
-            emitter2.setSpawnPointFunction(i -> new Point2D(10, 5));*/
-
-            //objetoCombustivel.addComponent(new ParticleComponent(emitter2));
-            objetoCombustivel.getComponent(ObjetoCombustivelComponente.class).tomaDano();
+            objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).tomaDano();
         });
 
         onCollisionBegin(EntityType.DISPARO_DE_AGUA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
             tiro.removeFromWorld();
-            objetoCombustivel.getComponent(ObjetoCombustivelComponente.class).recuperarVida();
+            objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).recuperarVida();
         });
 
 

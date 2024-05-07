@@ -1,6 +1,9 @@
 package org.example;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -24,8 +27,8 @@ import java.util.TimerTask;
 
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static org.example.EntityType.DISPARO_INIMIGO;
 
 
 public class EnemyComponent extends Component {
@@ -127,10 +130,27 @@ public class EnemyComponent extends Component {
         }
     }
 
-    public void atirar() {
-        //System.out.println("Espalha lixo atirou!");
+    public void atirar(Entity entidadeParaAtirar) {
+        System.out.println("quase tiro");
         if(!tiroEmEspera) {
-            spawn("tiroDoEspalhaLixo");
+            System.out.println("tiro");
+            double direcaoDoProjetil = entidadeParaAtirar.getCenter().getX();
+            double origemDoProjetilEixoY = entidadeParaAtirar.getCenter().getY() - 35;
+            double origemDoProjetilEixoX = direcaoDoProjetil;
+            double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
+
+            Point2D direction = new Point2D(direcaoDoProjetil, 0);
+
+            entityBuilder()
+                    .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
+                    .type(DISPARO_INIMIGO)
+                    .viewWithBBox("normal_feather.png")
+                    .collidable()
+                    .with(new ProjectileComponent(direction, 1000))
+                    .with(new OffscreenCleanComponent())
+                    .scale(0.5, mudaEscalaDaImagemParaDirecaoDoProjetil)
+                    .buildAndAttach();
+
             tiroEmEspera = true;
 
             Timer timer = new Timer();
@@ -177,6 +197,7 @@ public class EnemyComponent extends Component {
 
         // Gerar um número inteiro aleatório entre 0 e 2
         int decisaoAleatoriaDeMovimentacao = random.nextInt(2);
+
         if (decisaoAleatoriaDeMovimentacao == 0) {
             moveParaDireita();
         } else if (decisaoAleatoriaDeMovimentacao == 1) {

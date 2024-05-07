@@ -23,11 +23,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
@@ -111,7 +109,7 @@ public class MainFactory implements EntityFactory {
                 .type(OBJETO_COMBUSTIVEL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new CollidableComponent(true))
-                .with(new ObjetoCombustivelComponente(data.getX(), data.getY()))
+                .with(new ObjetoCombustivelComponent())
                 .with(new ParticleComponent(emissorDeParticula))
                 .build();
     }
@@ -166,18 +164,25 @@ public class MainFactory implements EntityFactory {
 
     @Spawns("barra_de_vida_objeto_combustivel")
     public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
-        return entityBuilder()
-                .zIndex(2)
+
+        System.out.println("awdawdawdwadwawd");
+
+       Entity e =  entityBuilder()
                 .viewWithBBox(new Circle(30/ 2 , Color.GOLD))
                 .with(new PhysicsComponent())
                 .build();
+
+       e.setReusable(true);
+
+       return e;
     }
 
+
     /*
-        Invoca a pena quando o jogador atirar com o personagem, configura a direção
-        da pena, velocidade, onde ela aparecerá e remove a mesma quando
-        sair da tela do jogador (campo de visão)
-     */
+            Invoca a pena quando o jogador atirar com o personagem, configura a direção
+            da pena, velocidade, onde ela aparecerá e remove a mesma quando
+            sair da tela do jogador (campo de visão)
+         */
     @Spawns("feather")
     public Entity newFeather(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
@@ -220,7 +225,6 @@ public class MainFactory implements EntityFactory {
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
         double playerPosicaoX = player.getPosition().getX();
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO
         double direcaoDoProjetil = espalhaLixo.getCenter().getX();
         double origemDoProjetilEixoY = espalhaLixo.getCenter().getY() - 35;
         double origemDoProjetilEixoX = direcaoDoProjetil;
@@ -259,8 +263,6 @@ public class MainFactory implements EntityFactory {
         // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
-        // PS: Foi mal geuntiiiii!
         double direcaoDoProjetil = player.getCenter().getX();
         double origemDoProjetilEixoY = player.getCenter().getY() - 80;
         double origemDoProjetilEixoX = direcaoDoProjetil - 160;

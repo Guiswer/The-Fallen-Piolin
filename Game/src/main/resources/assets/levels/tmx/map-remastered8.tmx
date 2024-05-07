@@ -411,7 +411,7 @@
   <object id="100" type="poligono" x="335.938" y="688.375">
    <polygon points="0,0 32.125,16.6875 0,17.25"/>
   </object>
-  <object id="101" type="poligono" x="450.313" y="688.25">
+  <object id="101" type="poligono" x="450.281" y="688.094">
    <polygon points="0,0 -34.5,16.0625 -0.3125,16.1875"/>
   </object>
   <object id="102" type="poligono" x="527.875" y="688.063">
