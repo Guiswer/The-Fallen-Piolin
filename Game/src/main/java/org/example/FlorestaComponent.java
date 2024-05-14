@@ -21,8 +21,8 @@ public class FlorestaComponent {
     }
 
     public void tomar_dano() {
-        //vida_da_floresta -= 3;
-       // barra_vida_floresta.setWidth(barra_vida_floresta.getWidth() - 30);
+        vida_da_floresta -= 3;
+        barra_vida_floresta.setWidth(barra_vida_floresta.getWidth() - 30);
         if (vida_da_floresta <= 0) {
             FimDeJogo.terminar();
         }

@@ -24,7 +24,7 @@ public class SensorComponent extends Component {
                 emEspera = true;
 
                 Timer timer = new Timer();
-                long delay = 1200;
+                long delay = 600;
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
