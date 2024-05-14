@@ -22,7 +22,10 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
+
+import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
@@ -90,21 +93,23 @@ public class MainFactory implements EntityFactory {
     @Spawns("objetoCombustivel")
     public Entity newObjetoCombustivel(SpawnData data) {
 
+        //Configurando partícula
         ParticleEmitter emissorDeParticula = ParticleEmitters.newFireEmitter();
 
         emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
         emissorDeParticula.setNumParticles(0);
-        emissorDeParticula.setEmissionRate(10);
-        emissorDeParticula.setSize(1, 3);
+        emissorDeParticula.setEmissionRate(1);
+        emissorDeParticula.setSize(1, 1);
         emissorDeParticula.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.001));
-        emissorDeParticula.setExpireFunction(i -> Duration.seconds(2.5));
+        emissorDeParticula.setExpireFunction(i -> Duration.seconds(0.5));
         emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
+
 
         return  entityBuilder()
                 .type(OBJETO_COMBUSTIVEL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new CollidableComponent(true))
-                .with(new ObjetoCombustivelComponente())
+                .with(new ObjetoCombustivelComponent())
                 .with(new ParticleComponent(emissorDeParticula))
                 .build();
     }
@@ -112,21 +117,24 @@ public class MainFactory implements EntityFactory {
     @Spawns("parede_limite_do_mapa")
     public Entity newPlaatfawdorm(SpawnData data) {
         return entityBuilder()
-                .type(PLATFORM)
+                .type(PAREDE_INVISIVEL_LIMITE_DO_MAPA)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
+                .with(new CollidableComponent())
                 .build();
     }
 
-    @Spawns("")
-    public Entity newPlaawdatfawdorm(SpawnData data) {
 
-        System.out.println("POLIGONO");
-        System.out.println( data.getData());
+    @Spawns("poligono")
+    public Entity newPlaawdatfawawdorm(SpawnData data) {
+        Polygon poly = data.<Polygon>get("polygon");
+        List<Double> points = poly.getPoints();
 
         return entityBuilder()
                 .type(PLATFORM)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.polygon(points.get(0),
+                                points.get(1), points.get(2), points.get(3),
+                            points.get(4), points.get(5))))
                 .with(new PhysicsComponent())
                 .build();
     }
@@ -138,15 +146,33 @@ public class MainFactory implements EntityFactory {
     public Entity newCoin(SpawnData data) {
         return entityBuilder()
                 .type(COIN)
-                .viewWithBBox(new Circle(data.<Integer>get("width") / 2 , Color.GOLD))
+                .zIndex(2)
+                .viewWithBBox(new Circle(160/ 2 , Color.GOLD))
+                .with( new PhysicsComponent())
                 .build();
     }
 
+    @Spawns("barra_de_vida_objeto_combustivel")
+    public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
+
+        System.out.println("awdawdawdwadwawd");
+
+       Entity e =  entityBuilder()
+                .viewWithBBox(new Circle(30/ 2 , Color.GOLD))
+                .with(new PhysicsComponent())
+                .build();
+
+       e.setReusable(true);
+
+       return e;
+    }
+
+
     /*
-        Invoca a pena quando o jogador atirar com o personagem, configura a direção
-        da pena, velocidade, onde ela aparecerá e remove a mesma quando
-        sair da tela do jogador (campo de visão)
-     */
+            Invoca a pena quando o jogador atirar com o personagem, configura a direção
+            da pena, velocidade, onde ela aparecerá e remove a mesma quando
+            sair da tela do jogador (campo de visão)
+         */
     @Spawns("feather")
     public Entity newFeather(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
@@ -189,7 +215,6 @@ public class MainFactory implements EntityFactory {
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
         double playerPosicaoX = player.getPosition().getX();
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO
         double direcaoDoProjetil = espalhaLixo.getCenter().getX();
         double origemDoProjetilEixoY = espalhaLixo.getCenter().getY() - 35;
         double origemDoProjetilEixoX = direcaoDoProjetil;
@@ -228,8 +253,6 @@ public class MainFactory implements EntityFactory {
         // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
-        // PS: Foi mal geuntiiiii!
         double direcaoDoProjetil = player.getCenter().getX();
         double origemDoProjetilEixoY = player.getCenter().getY() - 80;
         double origemDoProjetilEixoX = direcaoDoProjetil - 160;
@@ -303,7 +326,7 @@ public class MainFactory implements EntityFactory {
 
     @Spawns("enemy")
     public Entity newEnemy(SpawnData data) {
-// Obtendo um componente de física específico para o jogador
+    // Obtendo um componente de física específico para o jogador
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));

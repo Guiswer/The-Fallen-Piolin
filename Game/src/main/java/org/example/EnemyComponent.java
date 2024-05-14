@@ -1,6 +1,9 @@
 package org.example;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -24,8 +27,8 @@ import java.util.TimerTask;
 
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static org.example.EntityType.DISPARO_INIMIGO;
 
 
 public class EnemyComponent extends Component {
@@ -35,7 +38,7 @@ public class EnemyComponent extends Component {
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
-    private int life = 10;
+    private int life =30;
     private Rectangle barra_de_vida;
     private double escalaDoPersonagem = 0.8;
     private boolean metodoPararFoiUtilizado = false;
@@ -90,7 +93,7 @@ public class EnemyComponent extends Component {
                 System.out.println("Executando tarefa...");
                 movimentacaoAleatoria();
             }
-        }, 1000, 3000);
+        }, 1000, 2000);
     }
 
     @Override
@@ -120,21 +123,47 @@ public class EnemyComponent extends Component {
     public void tomaDano() {
         System.out.println("Vida do Espalha Lixo: " + life);
         life--;
-        barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
+        barra_de_vida.setWidth(barra_de_vida.getWidth()-3.33);
         if (life <= 0 ) {
             tarefaDeMovimentacaoAleatoria.cancel();
             entity.removeFromWorld();
         }
     }
 
-    public void atirar() {
-        //System.out.println("Espalha lixo atirou!");
+    public void atirar(Entity entidadeParaAtirar) {
         if(!tiroEmEspera) {
-            spawn("tiroDoEspalhaLixo");
+            System.out.println("tiro");
+            double direcaoDoProjetil = getEntity().getCenter().getX();;
+            double origemDoProjetilEixoY = getEntity().getCenter().getY()- 35;
+            double origemDoProjetilEixoX = direcaoDoProjetil;
+            double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
+
+
+            if (getEntity().getPosition().getX() > entidadeParaAtirar.getPosition().getX()) {
+                direcaoDoProjetil = -direcaoDoProjetil;
+                origemDoProjetilEixoX -= 80;
+                mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
+                getEntity().getComponent(EnemyComponent.class).moveParaEsquerda();
+            } else {
+                getEntity().getComponent(EnemyComponent.class).moveParaDireita();
+            }
+
+            Point2D direction = new Point2D(direcaoDoProjetil, 0);
+
+            entityBuilder()
+                    .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
+                    .type(DISPARO_INIMIGO)
+                    .viewWithBBox("normal_feather.png")
+                    .collidable()
+                    .with(new ProjectileComponent(direction, 1000))
+                    .with(new OffscreenCleanComponent())
+                    .scale(1, mudaEscalaDaImagemParaDirecaoDoProjetil)
+                    .buildAndAttach();
+
             tiroEmEspera = true;
 
             Timer timer = new Timer();
-            long delay = 400;
+            long delay = 1200;
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
@@ -177,6 +206,7 @@ public class EnemyComponent extends Component {
 
         // Gerar um número inteiro aleatório entre 0 e 2
         int decisaoAleatoriaDeMovimentacao = random.nextInt(2);
+
         if (decisaoAleatoriaDeMovimentacao == 0) {
             moveParaDireita();
         } else if (decisaoAleatoriaDeMovimentacao == 1) {

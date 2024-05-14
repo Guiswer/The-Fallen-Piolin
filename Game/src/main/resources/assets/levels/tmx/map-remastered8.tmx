@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="99">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="113">
  <tileset firstgid="1" name="tiles_piolin" tilewidth="16" tileheight="16" tilecount="625" columns="25">
   <image source="tiles_piolin.png" width="400" height="400"/>
  </tileset>
@@ -404,20 +404,39 @@
   <object id="34" type="platform" x="2208" y="704.182" width="96" height="15.8182"/>
   <object id="35" type="platform" x="1331.25" y="688.25" width="108.75" height="15.75"/>
   <object id="38" type="platform" x="2288.67" y="720.667" width="271.333" height="15.3333"/>
-  <object id="69" type="platform" x="322" y="703" width="50" height="15.75" rotation="45"/>
-  <object id="72" type="platform" x="412.61" y="705.73" width="50" height="15.75" rotation="-45"/>
-  <object id="73" type="platform" x="514.5" y="704.13" width="50" height="15.75" rotation="45"/>
-  <object id="74" type="platform" x="824.36" y="691.73" width="50" height="15.75" rotation="-45"/>
-  <object id="75" type="platform" x="905" y="687" width="50" height="15.75" rotation="45"/>
-  <object id="76" type="platform" x="1426.39" y="704.52" width="50" height="15.75" rotation="45"/>
-  <object id="77" type="platform" x="1839" y="703.13" width="50" height="15.75" rotation="-45"/>
-  <object id="78" type="platform" x="1290.25" y="707.63" width="50" height="15.75" rotation="-45"/>
-  <object id="79" type="platform" x="2045.67" y="687.29" width="50" height="15.75" rotation="-45"/>
-  <object id="80" type="platform" x="2146.82" y="688.14" width="62.6459" height="15.75" rotation="33.9271"/>
   <object id="84" type="parede_limite_do_mapa" x="2540.67" y="314.333" width="19" height="408.667"/>
   <object id="85" type="parede_limite_do_mapa" x="-19.3333" y="275.667" width="22.6667" height="428.333"/>
-  <object id="98" type="polygon" x="91" y="600">
-   <polygon points="10,0 99,-95 137,2"/>
+ </objectgroup>
+ <objectgroup id="14" name="poligonos">
+  <object id="100" type="poligono" x="335.938" y="688.375">
+   <polygon points="0,0 32.125,16.6875 0,17.25"/>
+  </object>
+  <object id="101" type="poligono" x="450.281" y="688.094">
+   <polygon points="0,0 -34.5,16.0625 -0.3125,16.1875"/>
+  </object>
+  <object id="102" type="poligono" x="527.875" y="688.063">
+   <polygon points="0,0 32.3125,16.5 0.1875,15.875"/>
+  </object>
+  <object id="103" type="poligono" x="865.727" y="672.455">
+   <polygon points="0,0 -50,32.3636 -0.272727,32.8182"/>
+  </object>
+  <object id="104" type="poligono" x="911.818" y="672.364">
+   <polygon points="0,0 48.2727,32.5455 0.0909091,32.6364"/>
+  </object>
+  <object id="105" type="poligono" x="1331.45" y="688.636">
+   <polygon points="0,0 -35.9091,16.1818 -0.636364,17.5455"/>
+  </object>
+  <object id="106" type="poligono" x="1440" y="688.438">
+   <polygon points="0,0 34.25,17.875 0.3125,18.125"/>
+  </object>
+  <object id="107" type="poligono" x="1874.69" y="688.563">
+   <polygon points="0,0 -35.5,16.8125 -0.375,17.5"/>
+  </object>
+  <object id="110" type="poligono" x="2159.93" y="672.25">
+   <polygon points="0,0 63.9091,32.6364 0.727273,31.0909"/>
+  </object>
+  <object id="112" type="poligono" x="2080.22" y="672.281">
+   <polygon points="0,0 -32.2188,16.3438 -0.1875,16.7813"/>
   </object>
  </objectgroup>
 </map>
