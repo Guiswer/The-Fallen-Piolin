@@ -19,10 +19,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.Optional;
 import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /*
@@ -146,6 +148,8 @@ public class Main extends GameApplication {
             }
         }, KeyCode.G);
 
+
+        //Configurações de entradas de dados para testar o Espalha Lixo
         getInput().addAction(new UserAction("Move espalha lixo para a esquerda!") {
             @Override
             protected void onActionBegin() {
@@ -159,6 +163,20 @@ public class Main extends GameApplication {
                 enemy.getComponent(EnemyComponent.class).moveParaDireita();
             }
         }, KeyCode.K);
+        getInput().addAction(new UserAction("Disparar com Espalha Lixo") {
+            @Override
+            protected void onActionBegin() {
+                Entity enemy = getGameWorld().getSingleton(EntityType.ENEMY);
+
+                Optional<Entity> entidadeMaisProxima = getGameWorld().getClosestEntity(enemy, (e) -> {
+                    return true;
+                });
+
+
+                enemy.getComponent(EnemyComponent.class).atirar(entidadeMaisProxima.get());
+            }
+        }, KeyCode.L);
+
     }
 
 
@@ -187,20 +205,10 @@ public class Main extends GameApplication {
         */
         getGameWorld().addEntityFactory(new MainFactory());
 
-        player = null;
-
-        // IGNORAR ESTES COMENTARIOS POR ENQUANTO....
-        // READ MORE...
-        //if (player != null) {
-        //    player.getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
-        //    player.setZIndex(Integer.MAX_VALUE);
-        //
-
         // Invocando plano de fundo
         spawn("background");
         // Definindo o mapa
         setLevelFromMap("tmx/map-remastered8.tmx");
-
 
 
         // PIOLIN
@@ -215,9 +223,6 @@ public class Main extends GameApplication {
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
         bodyEspalhaLixo.setLinearDamping(10.0f);
 
-        Random random = new Random();
-
-
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
@@ -225,37 +230,7 @@ public class Main extends GameApplication {
         viewport.bindToEntity(player, getAppWidth() / 2, 450);
         viewport.setZoom(2.5);
         viewport.setLazy(true);
-
-
-        var emitter = ParticleEmitters.newSparkEmitter();
-
-        emitter.setMaxEmissions(Integer.MAX_VALUE);
-        emitter.setNumParticles(50);
-        emitter.setEmissionRate(0.86);
-        emitter.setSize(1, 24);
-        emitter.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
-        emitter.setExpireFunction(i -> Duration.seconds(2.5));
-        emitter.setAccelerationFunction(() -> Point2D.ZERO);
-        emitter.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
-
-
-        var emitter2 = ParticleEmitters.newExplosionEmitter(10);
-
-        emitter2.setMaxEmissions(Integer.MAX_VALUE);
-        emitter2.setNumParticles(2);
-        emitter2.setEmissionRate(0.86);
-        emitter2.setSize(1, 10);
-        emitter2.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.01));
-        emitter2.setExpireFunction(i -> Duration.seconds(2.5));
-        emitter2.setAccelerationFunction(() -> Point2D.ZERO);
-        emitter2.setVelocityFunction(i -> FXGLMath.randomPoint2D().multiply(random(1, 45)));
-
-
-
-        //enemy.addComponent(new ParticleComponent(emitter2));
-
     }
-
 
 
 /*
@@ -289,8 +264,6 @@ public class Main extends GameApplication {
             tiro.removeFromWorld();
             objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).recuperarVida();
         });
-
-
     }
 
 

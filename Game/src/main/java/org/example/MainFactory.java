@@ -98,10 +98,10 @@ public class MainFactory implements EntityFactory {
 
         emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
         emissorDeParticula.setNumParticles(0);
-        emissorDeParticula.setEmissionRate(10);
-        emissorDeParticula.setSize(1, 3);
+        emissorDeParticula.setEmissionRate(1);
+        emissorDeParticula.setSize(1, 1);
         emissorDeParticula.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.001));
-        emissorDeParticula.setExpireFunction(i -> Duration.seconds(2.5));
+        emissorDeParticula.setExpireFunction(i -> Duration.seconds(0.5));
         emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
 
 
@@ -117,26 +117,16 @@ public class MainFactory implements EntityFactory {
     @Spawns("parede_limite_do_mapa")
     public Entity newPlaatfawdorm(SpawnData data) {
         return entityBuilder()
-                .type(PLATFORM)
+                .type(PAREDE_INVISIVEL_LIMITE_DO_MAPA)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
+                .with(new CollidableComponent())
                 .build();
     }
 
 
     @Spawns("poligono")
     public Entity newPlaawdatfawawdorm(SpawnData data) {
-          /*
-        System.out.println("POLIGONO");
-      for(Map.Entry<String, Object> entry : data.getData().entrySet()) {
-            String chave = entry.getKey();
-            Object valor = entry.getValue();
-            System.out.println("Chave: " + chave + ", Valor: " + valor);
-        }
-          //System.out.println(poly.getPoints().getClass());
-
-        System.out.println(data.<Object>get("polygon"));
-         */
         Polygon poly = data.<Polygon>get("polygon");
         List<Double> points = poly.getPoints();
 

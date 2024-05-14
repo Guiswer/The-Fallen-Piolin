@@ -19,19 +19,34 @@ public class SensorComponent extends Component {
 
         @Override
         public void onUpdate(double tpf) {
-            Entity enemy = getGameWorld().getSingleton(EntityType.ENEMY);
 
-            Optional<Entity> entidadeMaisProxima = getGameWorld().getClosestEntity(enemy, (e) -> {return true;});
+            if (!emEspera) {
+                emEspera = true;
+
+                Timer timer = new Timer();
+                long delay = 1200;
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        emEspera = false;
+                    }
+                };
+                timer.schedule(task, delay);
+
+                Entity enemy = getGameWorld().getSingleton(EntityType.ENEMY);
+
+                Optional<Entity> entidadeMaisProxima = getGameWorld().getClosestEntity(enemy, (e) -> {
+                    return true;
+                });
 
                 if (getEntity().distance(entidadeMaisProxima.get()) < 100) {
                     Random random = new Random();
                     boolean decisaoAleatoriaDeTiro = random.nextBoolean();
 
-                    if(decisaoAleatoriaDeTiro) {
+                    if (decisaoAleatoriaDeTiro) {
                         getEntity().getComponent(EnemyComponent.class).atirar(entidadeMaisProxima.get());
-                        emEspera = true;
                     }
                 }
-
+            }
         }
 }

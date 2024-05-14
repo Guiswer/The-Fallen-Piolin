@@ -93,7 +93,7 @@ public class EnemyComponent extends Component {
                 System.out.println("Executando tarefa...");
                 movimentacaoAleatoria();
             }
-        }, 1000, 3000);
+        }, 1000, 2000);
     }
 
     @Override
@@ -131,13 +131,22 @@ public class EnemyComponent extends Component {
     }
 
     public void atirar(Entity entidadeParaAtirar) {
-        System.out.println("quase tiro");
         if(!tiroEmEspera) {
             System.out.println("tiro");
-            double direcaoDoProjetil = entidadeParaAtirar.getCenter().getX();
-            double origemDoProjetilEixoY = entidadeParaAtirar.getCenter().getY() - 35;
+            double direcaoDoProjetil = getEntity().getCenter().getX();;
+            double origemDoProjetilEixoY = getEntity().getCenter().getY()- 35;
             double origemDoProjetilEixoX = direcaoDoProjetil;
             double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
+
+
+            if (getEntity().getPosition().getX() > entidadeParaAtirar.getPosition().getX()) {
+                direcaoDoProjetil = -direcaoDoProjetil;
+                origemDoProjetilEixoX -= 80;
+                mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
+                getEntity().getComponent(EnemyComponent.class).moveParaEsquerda();
+            } else {
+                getEntity().getComponent(EnemyComponent.class).moveParaDireita();
+            }
 
             Point2D direction = new Point2D(direcaoDoProjetil, 0);
 
@@ -148,13 +157,13 @@ public class EnemyComponent extends Component {
                     .collidable()
                     .with(new ProjectileComponent(direction, 1000))
                     .with(new OffscreenCleanComponent())
-                    .scale(0.5, mudaEscalaDaImagemParaDirecaoDoProjetil)
+                    .scale(1, mudaEscalaDaImagemParaDirecaoDoProjetil)
                     .buildAndAttach();
 
             tiroEmEspera = true;
 
             Timer timer = new Timer();
-            long delay = 400;
+            long delay = 1200;
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
