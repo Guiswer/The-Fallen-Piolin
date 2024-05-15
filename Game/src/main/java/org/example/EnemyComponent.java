@@ -37,7 +37,7 @@ public class EnemyComponent extends Component {
 
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
     private AnimatedTexture texture;
-    private AnimationChannel animIdle, animWalk, test;
+    private AnimationChannel animIdle, animWalk, animTiro;
     private int life =30;
     private Rectangle barra_de_vida;
     private double escalaDoPersonagem = 0.8;
@@ -54,10 +54,14 @@ public class EnemyComponent extends Component {
 
         // Definindo o PNG com os quadros (frames) de animação
         Image image = image("whole-espalha-lixot.png");
-        // Definindo animação para jogador parado
+        // Definindo animação para inimigo parado
         animIdle = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 0, 0);
-        // Definindo animação para jogador andando
+        // Definindo animação para inimigo andando
         animWalk = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 4, 5);
+        // Definindo animação para inimigo atirando
+        animTiro = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1.25), 2, 3);
+
+
 
         // Colocando a primeira textura do jogodor ao ser invocado
         // animIdle = parado
@@ -90,10 +94,10 @@ public class EnemyComponent extends Component {
         tarefaDeMovimentacaoAleatoria.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Executando tarefa...");
+                System.out.println("Executando tarefa aleatória de movimento");
                 movimentacaoAleatoria();
             }
-        }, 1000, 2000);
+        }, 500, 1500);
     }
 
     @Override
@@ -132,38 +136,46 @@ public class EnemyComponent extends Component {
 
     public void atirar(Entity entidadeParaAtirar) {
         if(!tiroEmEspera) {
-            System.out.println("tiro");
+            System.out.println("Espalha Lixo atirando...");
             double direcaoDoProjetil = getEntity().getCenter().getX();;
-            double origemDoProjetilEixoY = getEntity().getCenter().getY()- 35;
+            double origemDoProjetilEixoY = getEntity().getCenter().getY() - 25;
             double origemDoProjetilEixoX = direcaoDoProjetil;
-            double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
+            double mudaEscalaDaImagemParaDirecaoDoProjetil = 1;
 
 
             if (getEntity().getPosition().getX() > entidadeParaAtirar.getPosition().getX()) {
+                origemDoProjetilEixoX -= 40;
                 direcaoDoProjetil = -direcaoDoProjetil;
-                origemDoProjetilEixoX -= 80;
-                mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
+
+                mudaEscalaDaImagemParaDirecaoDoProjetil = -1;
                 getEntity().getComponent(EnemyComponent.class).moveParaEsquerda();
             } else {
                 getEntity().getComponent(EnemyComponent.class).moveParaDireita();
             }
+
+            Image image = image("tiro_de_fogo.png");
+            AnimationChannel animacaoTiro = new AnimationChannel(image, 4, 32, 32, Duration.seconds(0.1), 0, 3);
+
+            AnimatedTexture visualAnimadoTiro = new AnimatedTexture(animacaoTiro);
 
             Point2D direction = new Point2D(direcaoDoProjetil, 0);
 
             entityBuilder()
                     .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
                     .type(DISPARO_INIMIGO)
-                    .viewWithBBox("normal_feather.png")
+                    .viewWithBBox(visualAnimadoTiro)
                     .collidable()
-                    .with(new ProjectileComponent(direction, 1000))
+                    .with(new ProjectileComponent(direction, 500))
                     .with(new OffscreenCleanComponent())
                     .scale(1, mudaEscalaDaImagemParaDirecaoDoProjetil)
                     .buildAndAttach();
 
+            texture.loopAnimationChannel(animTiro);
+
             tiroEmEspera = true;
 
             Timer timer = new Timer();
-            long delay = 1200;
+            long delay = 600;
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
@@ -175,12 +187,14 @@ public class EnemyComponent extends Component {
     }
 
     public void moveParaEsquerda() {
+        texture.loopAnimationChannel(animWalk);
         getEntity().setScaleX(-escalaDoPersonagem);
         physics.setVelocityX(-velocidadeDoPersonagem);
         guardaUltimaMovimentacao = -velocidadeDoPersonagem;
     }
 
     public void moveParaDireita() {
+        texture.loopAnimationChannel(animWalk);
         getEntity().setScaleX(escalaDoPersonagem);
         physics.setVelocityX(velocidadeDoPersonagem);
         guardaUltimaMovimentacao = velocidadeDoPersonagem;

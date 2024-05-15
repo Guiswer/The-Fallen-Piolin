@@ -219,7 +219,7 @@ public class Main extends GameApplication {
         bodyPiolin.setLinearDamping(10.0f);
 
         // Espalha Lixo
-        enemy = spawn("enemy", 0, 600);
+        enemy = spawn("enemy", 1200, 600);
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
         bodyEspalhaLixo.setLinearDamping(10.0f);
 
@@ -250,14 +250,14 @@ public class Main extends GameApplication {
         });
 
         onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.JOGADOR, (tiro, player) -> {
-            tiro.removeFromWorld();
-            player.getComponent(PlayerComponent.class).tomaDano();
+           tiro.removeFromWorld();
+           player.getComponent(PlayerComponent.class).tomaDano();
         });
 
         onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
-            tiro.removeFromWorld();
-            System.out.println("Acertou objeto combustivel");
-            objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).tomaDano();
+           tiro.removeFromWorld();
+           System.out.println("Acertou objeto combustivel");
+           objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).tomaDano();
         });
 
         onCollisionBegin(EntityType.DISPARO_DE_AGUA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {

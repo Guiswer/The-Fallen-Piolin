@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="113">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="160" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="114">
  <tileset firstgid="1" name="tiles_piolin" tilewidth="16" tileheight="16" tilecount="625" columns="25">
   <image source="tiles_piolin.png" width="400" height="400"/>
  </tileset>
@@ -406,6 +406,7 @@
   <object id="38" type="platform" x="2288.67" y="720.667" width="271.333" height="15.3333"/>
   <object id="84" type="parede_limite_do_mapa" x="2540.67" y="314.333" width="19" height="408.667"/>
   <object id="85" type="parede_limite_do_mapa" x="-19.3333" y="275.667" width="22.6667" height="428.333"/>
+  <object id="113" type="parede_limite_do_mapa" x="2305.5" y="311.166" width="19" height="408.667"/>
  </objectgroup>
  <objectgroup id="14" name="poligonos">
   <object id="100" type="poligono" x="335.938" y="688.375">

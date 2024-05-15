@@ -142,7 +142,7 @@ public class PlayerComponent extends Component {
 
         physics.setVelocityY(-400);
 
-        //jumps--;
+        jumps--;
     }
 
     // Atirar penas com o personagem
