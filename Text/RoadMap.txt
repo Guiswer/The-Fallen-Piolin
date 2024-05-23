@@ -1,0 +1,25 @@
+TITLE: The Fallen Piolin
+------------------------
+CONTEXT:
+
+Uma avê (pica-pau filhote) cai de seu ninho e agora precisa retornar ao seu lar. Com ajuda da mãe natureza [Piolin] enfrenta desafios na floresta enquanto aprimora suas habilidades.
+------------------------
+NARRATIVE:
+
+1.[Piolin] cai de sua árvore.
+
+2.Desperta no solo da floresta.
+
+3.Usuário aprende os controles e mecânicas do videogame.
+
+4."Inimigos" aparecem para rivalizar com o [Piolin]
+
+5.Após derrotá-los, [Piolin] encontra um tipo de fonte para realizar um {puzzle} e se conectar com a Mãe-Natureza.
+
+6.Como bom comportamento a Mãe-Natureza materializa uma plataforma (sólida) para que [Piolin] consiga avançar em seu regresso para o topo da árvore.
+
+7.Novos "inimigos"{aves maiores} continuam a aparecer a cada nível, e [Piolin] precisa "encrementar" sua confiança com a Mãe-Natureza para que a mesma continue materializando plataformas e o deixando mais forte. {Podemos utilizar um sistema de pontuação para aumentar a confiaça com a Mãe-Natureza}
+
+8.Ao chegar no topo (final das plataformas), [Piolin] percebe que seus pais não estão mais em seu ninho, então ele completo de força que conseguiu no processo - se lança da árvore, mas dessa vez ele se mostra capaz de voar, e segue uma nova aventura para reecontrar seus pais. 
+
+FINAL. Post credits down.

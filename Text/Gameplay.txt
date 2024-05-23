@@ -1,0 +1,21 @@
+PC:
+
+MOVIMENT:
+W - To up
+A - Left
+S - To down
+D - Right
+
+ACTIONS:
+MB1 - Shoot
+MB2 - UNSTOPPABLE MODE
+F - Interactions
+
+
+MOBILE:
+
+MOVIMENT:
+By arrows
+
+ACTIONS:
+By shoot bottom
