@@ -41,9 +41,7 @@ public class Main extends GameApplication {
 // Injetando a classe player de forma global
     private Entity player;
     private Entity enemy;
-    private int vidaDaFloresta = 30;
 
-    private Rectangle barra_vida_floresta;
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.

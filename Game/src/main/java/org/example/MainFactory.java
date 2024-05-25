@@ -257,7 +257,7 @@ public class MainFactory implements EntityFactory {
     public Entity newDisparoDeAgua(SpawnData data){
 
         // Obtém a entidade do jogador para saber a posição de onde
-        // será lançada a pena
+        // Será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
         double direcaoDoProjetil = player.getCenter().getX();
@@ -296,7 +296,7 @@ public class MainFactory implements EntityFactory {
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
 
-        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        // Estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
 
@@ -338,7 +338,7 @@ public class MainFactory implements EntityFactory {
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
 
-        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        // Estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
 
