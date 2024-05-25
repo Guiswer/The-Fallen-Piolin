@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,6 +32,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
  Componente da entidade jogador para definir o visual e as ações
  */
 public class PlayerComponent extends Component {
+    int x = 0;
+
 
     // Injetando o componente de física para ser utilizado dentro da classe
     private PhysicsComponent physics;
@@ -66,6 +69,16 @@ public class PlayerComponent extends Component {
         // Loop para gerar a animação
         texture.loop();
 
+        //Imagem Barra de Vida do Piolin
+        Image imagemBarraDeVidaDiretorio = new Image("assets/textures/barra_de_vida_piolin.png");
+        ImageView imagemBarraDeVida = new ImageView(imagemBarraDeVidaDiretorio);
+        imagemBarraDeVida.setFitHeight(38);
+
+        imagemBarraDeVida.setX(164);
+        imagemBarraDeVida.setY(196);
+        imagemBarraDeVida.setPreserveRatio(true);
+
+        getGameScene().addUINode(imagemBarraDeVida);
 
         //BARRA DE VIDA
         barra_de_vida.setX(200);
@@ -162,6 +175,7 @@ public class PlayerComponent extends Component {
             };
             timer.schedule(task, delay);
         }
+        FXGL.play("paper.wav");
     }
 
     public void dispararAgua() {
@@ -180,6 +194,15 @@ public class PlayerComponent extends Component {
             };
             timer.schedule(task, delay);
         }
+        if (x == 4) {
+            FXGL.play("water.wav");
+        }
+
+        else if (x == 10) {
+            FXGL.play("water.wav");
+            x = 0;
+        }
+        x++;
     }
 
     public void tomaDano() {

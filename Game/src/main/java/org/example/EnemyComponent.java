@@ -32,7 +32,9 @@ import static org.example.EntityType.DISPARO_INIMIGO;
 
 
 public class EnemyComponent extends Component {
-
+    int x = 0;
+    int y = 0;
+    int z = 0;
     private PhysicsComponent physics;
 
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
@@ -132,6 +134,16 @@ public class EnemyComponent extends Component {
             tarefaDeMovimentacaoAleatoria.cancel();
             entity.removeFromWorld();
         }
+
+        if (x == 4) {
+            FXGL.play("haha.wav");
+        }
+
+        else if (x == 7) {
+            FXGL.play("haha.wav");
+            x = 0;
+        }
+        x++;
     }
 
     public void atirar(Entity entidadeParaAtirar) {
@@ -184,6 +196,16 @@ public class EnemyComponent extends Component {
             };
             timer.schedule(task, delay);
         }
+        if (y == 5) {
+            FXGL.play("fogo.wav");
+            FXGL.play("fire_launcher.wav");
+        }
+
+        else if (y == 8) {
+            FXGL.play("vaiqueimar.wav");
+            y = 0;
+        }
+        y++;
     }
 
     public void moveParaEsquerda() {
