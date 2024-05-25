@@ -31,6 +31,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
 
 /*
+<<<<<<< HEAD
     Método de fabricação para configurar cada entidade
     quando invocada (spawn)
  */
@@ -47,28 +48,69 @@ import static org.example.EntityType.*;
 
   build() = método para finalizar a criação da entidade no EntityBuilder()
  */
+=======
+   Método de fabricação para configurar cada entidade
+   quando invocada (spawn)
+
+   COMENTÁRIOS IMPORTANTES!
+
+   EntityBuilder() = método responsável para criar a entidade
+
+   bbox() = método para definir o tamanho da caixa de colisão (HitBox)  - não sei traduzir hit box ;-;
+
+  .with(new PhysicsComponent()) = utilizado junto ao bbox() torna a entidade um componente físico
+                        ou seja que pode sofre física de colisão e sua hit box começa a funcionar!
+
+  build() = método para finalizar a criação da entidade no EntityBuilder()
+*/
+
+>>>>>>> 9dc593f (add adjusts)
 public class MainFactory implements EntityFactory {
 
     // Invocar plano de fundo
     @Spawns("background")
+<<<<<<< HEAD
     public Entity newBackground(SpawnData data) {
         return entityBuilder()
                 .at(0, 120)
                 .view(new ScrollingBackgroundView(texture("background/forest.png").getImage(), getAppWidth(), getAppHeight()) )
                 .zIndex(-1)
+=======
+    public Entity newBackground(SpawnData data){
+
+        return entityBuilder()
+                .at(-10, 60)
+                .view(new ScrollingBackgroundView(texture("background/forest.png").getImage(), getAppWidth()-500,
+                 getAppHeight()) )
+                .zIndex(-5)
+>>>>>>> 9dc593f (add adjusts)
                 .with(new IrremovableComponent())
                 .build();
     }
 
+<<<<<<< HEAD
     /* Invocar plataforma
      OBS: este método é apenas para definir física para o personagem poder colidir com as plataformas,
         não sendo ligado literalmente com as plataformas visuais do mapa!
      */
+=======
+    /*
+        Invocar plataforma
+        OBS: este método é apenas para definir física para o personagem poder colidir com as plataformas,
+        não sendo ligado literalmente com as plataformas visuais do mapa!
+     */
+
+>>>>>>> 9dc593f (add adjusts)
     @Spawns("platform")
     public Entity newPlataforma(SpawnData data) {
 
         PhysicsComponent physics = new PhysicsComponent();
+<<<<<<< HEAD
         // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+=======
+
+        // Estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+>>>>>>> 9dc593f (add adjusts)
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
         fd.setFriction(0);
@@ -80,6 +122,10 @@ public class MainFactory implements EntityFactory {
                 .with(physics)
                 .build();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9dc593f (add adjusts)
     @Spawns("platform-diagonal")
     public Entity newPlataformaDiagonal(SpawnData data) {
 
@@ -104,7 +150,10 @@ public class MainFactory implements EntityFactory {
         emissorDeParticula.setExpireFunction(i -> Duration.seconds(0.5));
         emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9dc593f (add adjusts)
         return  entityBuilder()
                 .type(OBJETO_COMBUSTIVEL)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
@@ -152,11 +201,18 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
+<<<<<<< HEAD
     @Spawns("barra_de_vida_objeto_combustivel")
     public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
 
         System.out.println("awdawdawdwadwawd");
 
+=======
+
+    @Spawns("barra_de_vida_objeto_combustivel")
+    public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
+
+>>>>>>> 9dc593f (add adjusts)
        Entity e =  entityBuilder()
                 .viewWithBBox(new Circle(30/ 2 , Color.GOLD))
                 .with(new PhysicsComponent())
@@ -167,6 +223,7 @@ public class MainFactory implements EntityFactory {
        return e;
     }
 
+<<<<<<< HEAD
 
     /*
             Invoca a pena quando o jogador atirar com o personagem, configura a direção
@@ -175,6 +232,17 @@ public class MainFactory implements EntityFactory {
          */
     @Spawns("feather")
     public Entity newFeather(SpawnData data) {
+=======
+        /*
+        Invoca a pena quando o jogador atirar com o personagem, configura a direção
+        da pena, velocidade, onde ela aparecerá e remove a mesma quando
+        sair da tela do jogador (campo de visão)
+        */
+
+    @Spawns("feather")
+    public Entity newFeather(SpawnData data){
+
+>>>>>>> 9dc593f (add adjusts)
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
@@ -227,9 +295,17 @@ public class MainFactory implements EntityFactory {
             origemDoProjetilEixoX -= 80;
             mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
             espalhaLixo.getComponent(EnemyComponent.class).moveParaEsquerda();
+<<<<<<< HEAD
         } else {
             espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
         }
+=======
+        }
+        else {
+            espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
+        }
+
+>>>>>>> 9dc593f (add adjusts)
         espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
 
         // Direção do projetil
@@ -248,7 +324,12 @@ public class MainFactory implements EntityFactory {
 
 
     @Spawns("disparo_de_agua")
+<<<<<<< HEAD
     public Entity newDisparoDeAgua(SpawnData data) {
+=======
+    public Entity newDisparoDeAgua(SpawnData data){
+
+>>>>>>> 9dc593f (add adjusts)
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
@@ -292,6 +373,7 @@ public class MainFactory implements EntityFactory {
         // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
+<<<<<<< HEAD
         // Evita que o jogador grude nas paredes
         fd.setFriction(0);
 
@@ -300,6 +382,15 @@ public class MainFactory implements EntityFactory {
 
 
 
+=======
+
+        // Evita que o jogador grude nas paredes
+        fd.setFriction(0);
+
+        physics.setFixtureDef(fd);
+
+
+>>>>>>> 9dc593f (add adjusts)
         return FXGL.entityBuilder(data)
                 .type(JOGADOR)
 
@@ -354,4 +445,8 @@ public class MainFactory implements EntityFactory {
                 .with(new EnemyComponent())
                 .build();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9dc593f (add adjusts)
