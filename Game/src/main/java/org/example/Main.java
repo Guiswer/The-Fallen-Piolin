@@ -5,26 +5,16 @@ import com.almasb.fxgl.app.GameSettings;
 
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.scene.*;
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.virtual.VirtualButton;
-import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.Body;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
-
-import java.util.Optional;
-import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
@@ -36,12 +26,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
  */
 public class Main extends GameApplication {
 
-// Injetando a classe player de forma global
+// Injetando a classe player e inimigo de forma global
     private Entity player;
     private Entity enemy;
-    private int vidaDaFloresta = 30;
-
-    private Rectangle barra_vida_floresta;
 
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
@@ -50,7 +37,6 @@ public class Main extends GameApplication {
         // Configura tamanho da tela
         settings.setWidth(15*70); // 1050
         settings.setHeight(10*70); // 700
-        //System.out.println(settings.getMenuKey());
 
         // Habilita os menus de configurações dentro do jogo
         settings.setGameMenuEnabled(true);
@@ -72,9 +58,6 @@ public class Main extends GameApplication {
 
         // Modo da aplicação (Desenvolvimento, Debug ou final) apenas algo visual
         settings.setApplicationMode(ApplicationMode.DEVELOPER);
-
-        //settings.getCollisionDetectionStrategy();
-        //settings.getEnabledMenuItems();
     }
 
 /*
@@ -83,14 +66,12 @@ public class Main extends GameApplication {
 */
     @Override
     protected void initInput() {
-
         //Mover personagem para a esquerda
         getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
                 player.getComponent(PlayerComponent.class).left();
             }
-
             @Override
             protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
@@ -103,7 +84,6 @@ public class Main extends GameApplication {
             protected void onAction() {
                 player.getComponent(PlayerComponent.class).right();
             }
-
             @Override
             protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
@@ -118,7 +98,7 @@ public class Main extends GameApplication {
             }
         }, KeyCode.W, VirtualButton.A);
 
-        //Atirar penas com o personagem
+        //Disparar penas com o personagem
         getInput().addAction(new UserAction("Disparar pena") {
             @Override
             protected void onActionBegin() {
@@ -126,58 +106,13 @@ public class Main extends GameApplication {
             }
         }, MouseButton.PRIMARY);
 
+        //Disparar água com o personagem
         getInput().addAction(new UserAction("Disparar água") {
             @Override
             protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).dispararAgua();
             }
         }, MouseButton.SECONDARY);
-
-        getInput().addAction(new UserAction("PAUSE") {
-            @Override
-            protected void onActionBegin() {
-
-               // FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
-                getGameController().pauseEngine();
-            }
-        }, KeyCode.F);
-
-        getInput().addAction(new UserAction("RESUME") {
-            @Override
-            protected void onActionBegin() {
-                getGameController().resumeEngine();
-            }
-        }, KeyCode.G);
-
-
-        //Configurações de entradas de dados para testar o Espalha Lixo
-        getInput().addAction(new UserAction("Move espalha lixo para a esquerda!") {
-            @Override
-            protected void onActionBegin() {
-                enemy.getComponent(EnemyComponent.class).moveParaEsquerda();
-            }
-        }, KeyCode.J);
-
-        getInput().addAction(new UserAction("Move espalha lixo para a direita!") {
-            @Override
-            protected void onActionBegin() {
-                enemy.getComponent(EnemyComponent.class).moveParaDireita();
-            }
-        }, KeyCode.K);
-        getInput().addAction(new UserAction("Disparar com Espalha Lixo") {
-            @Override
-            protected void onActionBegin() {
-                Entity enemy = getGameWorld().getSingleton(EntityType.ENEMY);
-
-                Optional<Entity> entidadeMaisProxima = getGameWorld().getClosestEntity(enemy, (e) -> {
-                    return true;
-                });
-
-
-                enemy.getComponent(EnemyComponent.class).atirar(entidadeMaisProxima.get());
-            }
-        }, KeyCode.L);
-
     }
 
 
@@ -191,7 +126,6 @@ public class Main extends GameApplication {
 
         // Definindo som de fundo
         loopBGM("backsound.wav");
-
     }
 
     /*
@@ -200,6 +134,7 @@ public class Main extends GameApplication {
      */
     @Override
     protected void initGame() {
+        // Voz e fundo acionada na abertura do jogo
         FXGL.play("mudado.wav");
 
         /*
@@ -214,7 +149,6 @@ public class Main extends GameApplication {
         // Definindo o mapa
         setLevelFromMap("tmx/map-remastered8.tmx");
 
-
         // PIOLIN
         player = spawn("player", 0, 600);
         // Ajustar o amortecimento linear do corpo físico para evitar o quique
@@ -226,7 +160,6 @@ public class Main extends GameApplication {
         enemy = spawn("enemy", 1200, 600);
         Body bodyEspalhaLixo = enemy.getComponent(PhysicsComponent.class).getBody();
         bodyEspalhaLixo.setLinearDamping(10.0f);
-
 
         // Configurações de tela (viewport) para se vincular ao jogador
         Viewport viewport = getGameScene().getViewport();
@@ -253,17 +186,20 @@ public class Main extends GameApplication {
             enemy.getComponent(EnemyComponent.class).tomaDano();
         });
 
+        //  Definindo a colisão de disparo inimigo com o jogador
         onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.JOGADOR, (tiro, player) -> {
            tiro.removeFromWorld();
            player.getComponent(PlayerComponent.class).tomaDano();
         });
 
+        //  Definindo a colisão de disparo inimigo com objetos combustíveis
         onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
            tiro.removeFromWorld();
            System.out.println("Acertou objeto combustivel");
            objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).tomaDano();
         });
 
+        // Definindo a colisão de disparo de água com objetos combustíveis
         onCollisionBegin(EntityType.DISPARO_DE_AGUA_JOGADOR, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
             tiro.removeFromWorld();
             objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).recuperarVida();

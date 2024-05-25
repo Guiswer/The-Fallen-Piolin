@@ -1,14 +1,11 @@
 package org.example;
 
-import com.almasb.fxgl.entity.Entity;
+
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.particle.ParticleComponent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import org.example.utilitarios.FimDeJogo;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
+// Classe de componente para lógica de objetos combustíveis
 public class ObjetoCombustivelComponent extends Component {
 
     private static FlorestaComponent florestaComponente = new FlorestaComponent();

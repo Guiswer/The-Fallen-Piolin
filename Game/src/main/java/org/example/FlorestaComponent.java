@@ -6,13 +6,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.utilitarios.FimDeJogo;
 
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
+/*
+ Classe de componente para lógica da vida da floresta
+ */
 public class FlorestaComponent {
 
+    // barra de vida dinâmica - visual
     private Rectangle barra_vida_floresta;
 
+    // vida
     private int vida_da_floresta = 30;
 
     public FlorestaComponent() {
@@ -28,12 +32,14 @@ public class FlorestaComponent {
 
         getGameScene().addUINode(imagemBarraDeVida);
 
+        // define visual da imagem da barra de vida dinâmica
         barra_vida_floresta = new Rectangle(300, 50, Color.BLUE);
         barra_vida_floresta.setX(100);
         barra_vida_floresta.setY(100);
         getGameScene().addUINode(barra_vida_floresta);
     }
 
+    // Lógica para lidar com a perca de vida da floresta
     public void tomar_dano() {
         vida_da_floresta -= 3;
         barra_vida_floresta.setWidth(barra_vida_floresta.getWidth() - 30);
@@ -42,6 +48,7 @@ public class FlorestaComponent {
         }
     }
 
+    // Lógica para lidar com a recuperação de vida da floresta
     public void recuperar_vida_da_floresta() {
         vida_da_floresta += 5;
         if(barra_vida_floresta.getWidth() > 250) {

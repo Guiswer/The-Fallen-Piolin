@@ -1,13 +1,7 @@
 package org.example;
 
 import com.almasb.fxgl.animation.Interpolators;
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.app.scene.LoadingScene;
-import com.almasb.fxgl.app.scene.Viewport;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.FXGLForKtKt;
-import com.almasb.fxgl.ui.UIFactoryService;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,11 +16,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 
 /*
- NÃO COMENTEI ESTÁ CLASSE POR QUE NÃO FAÇO IDEIA DE COMO EXPLICAR ELA
- EU APENAS DEI UM CTRL C + CTRL V DO EXEMPLO DO CRIADOR DO FXGL KKKK
-
- MAS DE FORMA BREVE ESTÁ CLASSE É RESPONSÁVEL POR CRIAR A CENA DE CARREGAMENTO (LOADING) DO JOGO!
- PS: VOU ESTUDAR ELA DEPOIS!
+Classe responsável por criar a cena de carregamento no início do jogo
  */
 public class MainLoadingScene extends LoadingScene {
 
@@ -38,7 +28,6 @@ public class MainLoadingScene extends LoadingScene {
 
         var hbox = new HBox(5);
 
-        // Create "." ".." "..."
         for (int i = 0; i < 3; i++) {
             var textDot = getUIFactoryService().newText(".", Color.BLACK, 46.0);
 

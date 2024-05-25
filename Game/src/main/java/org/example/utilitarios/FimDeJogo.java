@@ -14,29 +14,36 @@ import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
 
+// Classe utilitária para definir a tela de fim de jogo
 public class FimDeJogo {
 
+    // Método estático para poder ser usado sem instânciar a classe FimDeJogo
     public static void terminar() {
+        // Pausa a engine do jogo
         getGameController().pauseEngine();
-        Rectangle barra_de_vida = new Rectangle(260, 50, Color.DARKORANGE);
-        barra_de_vida.setX(getAppWidth()/2 - 130);
-        barra_de_vida.setY(300);
+        Rectangle barra_laranja = new Rectangle(260, 50, Color.DARKORANGE);
+        barra_laranja.setX(getAppWidth()/2 - 130);
+        barra_laranja.setY(300);
 
+        // botão para fechar o jogo
         Button btn = new Button("FECHAR");
         btn.setTranslateX(getAppWidth()/2 - 125);
         btn.setTranslateY(300);
         btn.setBackground(Background.fill(Color.ORANGE));
-        btn.setPrefWidth(250); // Define a largura do botão para 200 pixels
-        btn.setPrefHeight(40); // Define a altura do botão para 100 pixels
+        btn.setPrefWidth(250); // Define a largura do botão
+        btn.setPrefHeight(40); // Define a altura do botão
 
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+
+        // Definindo evento para víncular ao botão de fechar
+        EventHandler<ActionEvent> evento = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
+                // Finalização do jogo
                 FXGL.getGameController().exit();
             }
         };
 
-        btn.setOnAction(event);
+        btn.setOnAction(evento);
 
         Text textOptions = FXGL.getUIFactoryService().newText("DERROTA!", Color.WHITE, FontType.GAME, 54);
         textOptions.setTranslateX(getAppWidth()/2 - 100);
@@ -44,7 +51,8 @@ public class FimDeJogo {
         textOptions.setTranslateY(290);
         textOptions.setMouseTransparent(true);
 
-        getGameScene().addUINode(barra_de_vida);
+        // Alocando elementos na interface
+        getGameScene().addUINode(barra_laranja);
         getGameScene().addUINode(btn);
         getGameScene().addUINode(textOptions);
     }

@@ -6,35 +6,25 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 
-import com.almasb.fxgl.ui.FontType;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+
 import javafx.util.Duration;
 import org.example.utilitarios.FimDeJogo;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 
 /*
- Componente da entidade jogador para definir o visual e as ações
+ Classe de componente para lógica do personagem principal
  */
 public class PlayerComponent extends Component {
-    int x = 0;
-
-
     // Injetando o componente de física para ser utilizado dentro da classe
     private PhysicsComponent physics;
 
@@ -42,6 +32,7 @@ public class PlayerComponent extends Component {
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, test;
 
+    // Vida do jogador
     private int vida = 10;
 
     //Propriedades de configurações
@@ -69,7 +60,7 @@ public class PlayerComponent extends Component {
         // Loop para gerar a animação
         texture.loop();
 
-        //Imagem Barra de Vida do Piolin
+        //Imagem de borda para a barra de vida do Piolin
         Image imagemBarraDeVidaDiretorio = new Image("assets/textures/barra_de_vida_piolin.png");
         ImageView imagemBarraDeVida = new ImageView(imagemBarraDeVidaDiretorio);
         imagemBarraDeVida.setFitHeight(38);
@@ -80,19 +71,18 @@ public class PlayerComponent extends Component {
 
         getGameScene().addUINode(imagemBarraDeVida);
 
-        //BARRA DE VIDA
+        //Imagem da barra de vida
         barra_de_vida.setX(200);
         barra_de_vida.setY(200);
         getGameScene().addUINode(barra_de_vida);
     }
 
 
+    // Método acionado com a entidade for invocada
     @Override
     public void onAdded() {
         entity.getTransformComponent().setScaleOrigin(new Point2D(25, 21));
         entity.getViewComponent().addChild(texture);
-
-
 
         // Escala do personagem
         entity.setScaleX(0.4);
@@ -111,7 +101,6 @@ public class PlayerComponent extends Component {
     // Método chamado quando ouver atualização a ser feita no personagem
     @Override
     public void onUpdate(double tpf) {
-        // NECESSÁRIA ATUALIZAÇÃO NESTE BLOCO DE CÓDIGO FUTURAMENTE
         // alternar as animações entre parado e andando
         if (physics.isMovingX()) {
             if (texture.getAnimationChannel() != animWalk) {
@@ -124,9 +113,8 @@ public class PlayerComponent extends Component {
         }
     }
 
-    // Os métodos abaixo seram chamados quando o jogador utilizar cada atalho correspondente
-    // eles são os responsaveis por configurar as regras de cada ação
-
+    /* Os métodos abaixo seram chamados quando o jogador utilizar cada atalho correspondente
+       eles são os responsaveis por configurar as regras de cada ação*/
     //Mover para a esquerda
     public void left() {
         getEntity().setScaleX(-0.4);
@@ -152,35 +140,37 @@ public class PlayerComponent extends Component {
         if (jumps == 0)
             return;
 
-
         physics.setVelocityY(-400);
-
         jumps--;
     }
 
-    // Atirar penas com o personagem
+    // Disparar penas com o personagem
     public void shoot() {
 
         if(!shootInCooldown) {
             spawn("feather");
             shootInCooldown = true;
 
+            // Thread - timer para tirar o tempo de espera
             Timer timer = new Timer();
             long delay = 400;
-            TimerTask task = new TimerTask() {
+            TimerTask tarefa = new TimerTask() {
                 @Override
                 public void run() {
                     shootInCooldown = false;
                 }
             };
-            timer.schedule(task, delay);
+            timer.schedule(tarefa, delay);
         }
         FXGL.play("paper.wav");
     }
 
+    // Disparar água com o personagem
     public void dispararAgua() {
-
         if(!shootInCooldown) {
+            // som para água
+            FXGL.play("water.wav");
+            // invocada o disparo
             spawn("disparo_de_agua");
             shootInCooldown = true;
 
@@ -194,17 +184,9 @@ public class PlayerComponent extends Component {
             };
             timer.schedule(task, delay);
         }
-        if (x == 4) {
-            FXGL.play("water.wav");
-        }
-
-        else if (x == 10) {
-            FXGL.play("water.wav");
-            x = 0;
-        }
-        x++;
     }
 
+    // Recebe dano
     public void tomaDano() {
         vida--;
         barra_de_vida.setWidth(barra_de_vida.getWidth()-10);

@@ -20,8 +20,6 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
@@ -30,10 +28,6 @@ import java.util.List;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static org.example.EntityType.*;
 
-/*
-    Método de fabricação para configurar cada entidade
-    quando invocada (spawn)
- */
 
 /*
  COMENTÁRIOS IMPORTANTES!
@@ -47,6 +41,10 @@ import static org.example.EntityType.*;
 
   build() = método para finalizar a criação da entidade no EntityBuilder()
  */
+
+/*
+    Método de fabricação para configurar cada entidade
+    quando invocada (spawn) */
 public class MainFactory implements EntityFactory {
 
     // Invocar plano de fundo
@@ -68,7 +66,6 @@ public class MainFactory implements EntityFactory {
     public Entity newPlataforma(SpawnData data) {
 
         PhysicsComponent physics = new PhysicsComponent();
-        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
         fd.setFriction(0);
@@ -80,22 +77,15 @@ public class MainFactory implements EntityFactory {
                 .with(physics)
                 .build();
     }
-    @Spawns("platform-diagonal")
-    public Entity newPlataformaDiagonal(SpawnData data) {
 
-        return  entityBuilder()
-                .type(PLATFORM)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),  data.<Integer>get("height"))))
-                .with(new PhysicsComponent())
-                .build();
-    }
-
+    /* Invoca objetos combustíveis
+    OBS: este método é apenas para definir física para o personagem poder colidir com as plataformas,
+    não sendo ligado literalmente com as plataformas visuais do mapa! */
     @Spawns("objetoCombustivel")
     public Entity newObjetoCombustivel(SpawnData data) {
 
-        //Configurando partícula
+        //Configura partícula de emissão de fogo para os objetos queimados
         ParticleEmitter emissorDeParticula = ParticleEmitters.newFireEmitter();
-
         emissorDeParticula.setMaxEmissions(Integer.MAX_VALUE);
         emissorDeParticula.setNumParticles(0);
         emissorDeParticula.setEmissionRate(1);
@@ -103,7 +93,6 @@ public class MainFactory implements EntityFactory {
         emissorDeParticula.setScaleFunction(i -> FXGLMath.randomPoint2D().multiply(0.001));
         emissorDeParticula.setExpireFunction(i -> Duration.seconds(0.5));
         emissorDeParticula.setSpawnPointFunction(i -> new Point2D(5, 5));
-
 
         return  entityBuilder()
                 .type(OBJETO_COMBUSTIVEL)
@@ -114,6 +103,9 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
+
+    // Invoca entidade de parede invísivel no fim e início do mapa para impedir que os
+    // personagens ultrapassem o limite do mapa
     @Spawns("parede_limite_do_mapa")
     public Entity newPlaatfawdorm(SpawnData data) {
         return entityBuilder()
@@ -124,7 +116,9 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-
+/* Invoca entidades de polígos que são necessárias para criar diferentes formas de objetos de colisão
+    OBS: este método é apenas para definir física para o personagem poder colidir com as plataformas,
+    não sendo ligado literalmente com as plataformas visuais do mapa! */
     @Spawns("poligono")
     public Entity newPlaawdatfawawdorm(SpawnData data) {
         Polygon poly = data.<Polygon>get("polygon");
@@ -139,39 +133,10 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-
-    // Invocar moeda
-    // MÉTODO QUE TAMBÉM SERÁ REMOVIDO NO FUTURO QUANDO NÃO HOUVER NECESSIDADE DE UTILIZAÇÃO DO PRIMEIRO MAPA
-    @Spawns("coin")
-    public Entity newCoin(SpawnData data) {
-        return entityBuilder()
-                .type(COIN)
-                .zIndex(2)
-                .viewWithBBox(new Circle(160/ 2 , Color.GOLD))
-                .with( new PhysicsComponent())
-                .build();
-    }
-
-    @Spawns("barra_de_vida_objeto_combustivel")
-    public Entity newBarraDeVidaObjetosCombustiveis(SpawnData data) {
-
-        System.out.println("awdawdawdwadwawd");
-
-       Entity e =  entityBuilder()
-                .viewWithBBox(new Circle(30/ 2 , Color.GOLD))
-                .with(new PhysicsComponent())
-                .build();
-
-       e.setReusable(true);
-
-       return e;
-    }
-
-
     /*
-            Invoca a pena quando o jogador atirar com o personagem, configura a direção
-            da pena, velocidade, onde ela aparecerá e remove a mesma quando
-            sair da tela do jogador (campo de visão)
+      Invoca a pena quando o jogador atirar com o personagem, configura a direção
+      da pena, velocidade, onde ela aparecerá e remove a mesma quando
+      sair da tela do jogador (campo de visão)
          */
     @Spawns("feather")
     public Entity newFeather(SpawnData data) {
@@ -207,50 +172,11 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("tiroDoEspalhaLixo")
-    public Entity newTiroDoEspalhaLixo(SpawnData data) {
-        // Obtém a entidade do jogador para saber a posição de onde
-        // será lançada a pena
-        Entity espalhaLixo = getGameWorld().getSingleton(EntityType.ENEMY);
-        Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
-        double playerPosicaoX = player.getPosition().getX();
-
-        double direcaoDoProjetil = espalhaLixo.getCenter().getX();
-        double origemDoProjetilEixoY = espalhaLixo.getCenter().getY() - 35;
-        double origemDoProjetilEixoX = direcaoDoProjetil;
-        double mudaEscalaDaImagemParaDirecaoDoProjetil = 0.5;
-
-
-        // Regra para disparo para a esquerda
-        if (espalhaLixo.getPosition().getX() > playerPosicaoX) {
-            direcaoDoProjetil = -espalhaLixo.getCenter().getX();
-            origemDoProjetilEixoX -= 80;
-            mudaEscalaDaImagemParaDirecaoDoProjetil = -0.5;
-            espalhaLixo.getComponent(EnemyComponent.class).moveParaEsquerda();
-        } else {
-            espalhaLixo.getComponent(EnemyComponent.class).moveParaDireita();
-        }
-        espalhaLixo.getComponent(EnemyComponent.class).pararPersonagem();
-
-        // Direção do projetil
-        Point2D direction = new Point2D(direcaoDoProjetil, 0);
-
-        return  entityBuilder()
-                .at(origemDoProjetilEixoX, origemDoProjetilEixoY)
-                .type(DISPARO_INIMIGO)
-                .viewWithBBox("normal_feather.png")
-                .collidable()
-                .with(new ProjectileComponent(direction, 1000))
-                .with(new OffscreenCleanComponent())
-                .scale(0.5, mudaEscalaDaImagemParaDirecaoDoProjetil)
-                .build();
-    }
-
 
     @Spawns("disparo_de_agua")
     public Entity newDisparoDeAgua(SpawnData data) {
         // Obtém a entidade do jogador para saber a posição de onde
-        // será lançada a pena
+        // será lançada a água
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
 
         double direcaoDoProjetil = player.getCenter().getX();
@@ -279,34 +205,23 @@ public class MainFactory implements EntityFactory {
                 .build();
     }
 
-
+    // Configuração para invocar jogador
     @Spawns("player")
     public Entity newPlayer(SpawnData data) {
-
         // Obtendo um componente de física específico para o jogador
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
-
-        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        // Evita que o jogador grude nas paredes
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
-        // Evita que o jogador grude nas paredes
         fd.setFriction(0);
-
 
         physics.setFixtureDef(fd);
 
-
-
         return FXGL.entityBuilder(data)
                 .type(JOGADOR)
-
-                // PODE SER UTILIZADO DEPOIS PARA UM SEGUNDA HIT BOX REDONDA
-                // SIGNIFICANDO A CABEÇA DO PERSONAGEM
-                //.bbox(new HitBox(new Point2D(5,15), BoundingShape.circle(6)))
-
                 //Piolin
                 .bbox(new HitBox(new Point2D(25,10), BoundingShape.box(15, 50)))
                 .with(physics)
@@ -314,29 +229,25 @@ public class MainFactory implements EntityFactory {
                 .with(new CollidableComponent(true))
                 // Componente irremovivel do jogo
                 .with(new IrremovableComponent())
-
-
                 /*
-                 INJETA AQUI A CLASSE PLAYER (COMPONENTE) QUE É BREVEMENTE CONFIGURADA EM UMA CLASSE
-                 SEPARADA POR TER DIVERSOS RECURSOS QUE AS DEMAIS ENTIDADE NÃO PRECISAM!
+                 Injeta o a classe de componente player que é brevemente configurada e separada
+                 por ter diversos recursos que as demais entidades não necessitam.
                  */
                 .with(new PlayerComponent())
                 .build();
     }
 
+    // Configuração para invocar inimigo
     @Spawns("enemy")
     public Entity newEnemy(SpawnData data) {
-    // Obtendo um componente de física específico para o jogador
+        // Obtendo um componente de física específico para o inimigo
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(25,10), BoundingShape.box(15, 50)));
 
-
-        // estes são objetos jbox2d diretos, então na verdade não introduzimos uma nova API
+        // Evita que o personagem grude nas paredes
         FixtureDef fd = new FixtureDef();
         fd.setRestitution(0);
-
-        // Evita que o jogador grude nas paredes
         fd.setFriction(0);
 
         physics.setFixtureDef(fd);
@@ -348,9 +259,8 @@ public class MainFactory implements EntityFactory {
                 .with(physics)
                 // Componente possivel de colisão
                 .with(new CollidableComponent(true))
-
                 //Sensor para verificar proximidade do PIOLIN
-                .with(new SensorComponent())
+                .with(new SensorInimigoComponent())
                 .with(new EnemyComponent())
                 .build();
     }
