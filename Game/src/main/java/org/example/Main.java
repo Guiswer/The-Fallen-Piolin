@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.scene.*;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.input.virtual.VirtualButton;
@@ -186,11 +187,12 @@ public class Main extends GameApplication {
     @Override
     protected void onPreInit() {
         // Modificando volume inicial
-        getSettings().setGlobalMusicVolume(0.01);
-        // Definindo som de fundo
-        loopBGM("you_won_the_battle_but_not_the_war.wav");
-    }
+        getSettings().setGlobalMusicVolume(0.8);
 
+        // Definindo som de fundo
+        loopBGM("backsound.wav");
+
+    }
 
     /*
     Método para iniciar o jogo adicionando a classe de fábrica (factory), também é reposponsável por
@@ -198,6 +200,8 @@ public class Main extends GameApplication {
      */
     @Override
     protected void initGame() {
+        FXGL.play("mudado.wav");
+
         /*
          Vinculando a classe de fábrica que é responsável por saber
          as configurações de criação de cada entidade
