@@ -143,9 +143,7 @@ public class MainFactory implements EntityFactory {
         // Obtém a entidade do jogador para saber a posição de onde
         // será lançada a pena
         Entity player = getGameWorld().getSingleton(EntityType.JOGADOR);
-
-        // LINHAS QUE DEVEM SER TRADUZIDOS POSTERIOMENTE PARA MELHOR ENTENDIMENTO KKKKKKKK
-        // PS: Foi mal geuntiiiii!
+     
         double direcaoDoProjetil = player.getCenter().getX();
         double origemDoProjetilEixoY = player.getCenter().getY() - 35;
         double origemDoProjetilEixoX = direcaoDoProjetil - 40;
