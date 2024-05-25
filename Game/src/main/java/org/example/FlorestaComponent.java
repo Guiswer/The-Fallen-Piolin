@@ -50,14 +50,10 @@ public class FlorestaComponent {
         // Recupera 5
         vida_da_floresta += 5;
 
-        if(barra_vida_floresta.getWidth() < 247) {
-            barra_vida_floresta.setWidth(247);
-        }
-
-        else {
+        if (barra_vida_floresta.getWidth() < 247){
             barra_vida_floresta.setWidth(barra_vida_floresta.getWidth() + 50);
 
-            if(barra_vida_floresta.getWidth() > 247) {
+            if(barra_vida_floresta.getWidth() >= 247){
                 barra_vida_floresta.setWidth(247);
             }
         }

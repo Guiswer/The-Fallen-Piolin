@@ -170,10 +170,12 @@ public class PlayerComponent extends Component {
 
         if(!shootInCooldown) {
             spawn("feather");
+            FXGL.play("paper.wav");
+
             shootInCooldown = true;
 
             Timer timer = new Timer();
-            long delay = 400;
+            long delay = 600;
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
@@ -183,7 +185,6 @@ public class PlayerComponent extends Component {
             timer.schedule(task, delay);
         }
 
-        FXGL.play("paper.wav");
 
 
 

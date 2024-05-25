@@ -103,7 +103,7 @@ public class EnemyComponent extends Component {
             public void run() {
                 movimentacaoAleatoria();
             }
-        }, 500, 1500);
+        }, 1000, 1000000000);
     }
 
     @Override
@@ -213,14 +213,14 @@ public class EnemyComponent extends Component {
         x++;
     }
 
-    public void moveParaEsquerda() {
+    public void moveParaEsquerda(){
         texture.loopAnimationChannel(animWalk);
         getEntity().setScaleX(-escalaDoPersonagem);
         physics.setVelocityX(-velocidadeDoPersonagem);
         guardaUltimaMovimentacao = -velocidadeDoPersonagem;
     }
 
-    public void moveParaDireita() {
+    public void moveParaDireita(){
         texture.loopAnimationChannel(animWalk);
         getEntity().setScaleX(escalaDoPersonagem);
         physics.setVelocityX(velocidadeDoPersonagem);
@@ -232,12 +232,14 @@ public class EnemyComponent extends Component {
 
         Timer timer = new Timer();
         long delay = 400;
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask(){
+
             @Override
             public void run() {
                 metodoPararFoiUtilizado = false;
             }
         };
+
         timer.schedule(task, delay);
         physics.setVelocityX(0);
     }
