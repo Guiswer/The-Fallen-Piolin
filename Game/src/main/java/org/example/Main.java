@@ -28,20 +28,14 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
 /*
  Classe principal para rodar o programa!
  extende a classe GameApplication da biblioteca FXGL
  responsável por disponibilizar os métodos de configuração
  do jogo
  */
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
 public class Main extends GameApplication {
 
 // Injetando a classe player de forma global
@@ -54,38 +48,17 @@ public class Main extends GameApplication {
 // método de configurações usado para
 // definir o tamanho da tela entre outros.
     @Override
-<<<<<<< HEAD
-    protected void initSettings(GameSettings settings) {
-        // Configura tamanho da tela
-        settings.setWidth(15*70); // 1050
-        settings.setHeight(10*70); // 700
-        //System.out.println(settings.getMenuKey());
-=======
     protected void initSettings(GameSettings settings){
 
         // Configura tamanho da tela
         settings.setWidth(15*70); // 1050
         settings.setHeight(10*70); // 700
->>>>>>> 9dc593f (add adjusts)
 
         // Habilita os menus de configurações dentro do jogo
         settings.setGameMenuEnabled(true);
         settings.setDeveloperMenuEnabled(true);
 
         // Inicia a cena de carregamento
-<<<<<<< HEAD
-        settings.setSceneFactory(new SceneFactory() {
-            @Override
-            public LoadingScene newLoadingScene() {
-                return new MainLoadingScene();
-            }
-
-            /*@Override
-            public FXGLMenu newGameMenu() {
-                //return new SimpleGameMenu();
-                return new MyPauseMenu();
-            }*/
-=======
         settings.setSceneFactory(new SceneFactory(){
 
             @Override
@@ -100,19 +73,13 @@ public class Main extends GameApplication {
                 return new MyPauseMenu();
             }
             */
->>>>>>> 9dc593f (add adjusts)
         });
 
         // Modo da aplicação (Desenvolvimento, Debug ou final) apenas algo visual
         settings.setApplicationMode(ApplicationMode.DEVELOPER);
 
-<<<<<<< HEAD
-        //settings.getCollisionDetectionStrategy();
-        //settings.getEnabledMenuItems();
-=======
         // Settings.getCollisionDetectionStrategy();
         // Settings.getEnabledMenuItems();
->>>>>>> 9dc593f (add adjusts)
     }
 
 /*
@@ -122,11 +89,7 @@ public class Main extends GameApplication {
     @Override
     protected void initInput() {
 
-<<<<<<< HEAD
-        //Mover personagem para a esquerda
-=======
         // Mover personagem para a esquerda
->>>>>>> 9dc593f (add adjusts)
         getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
@@ -137,17 +100,11 @@ public class Main extends GameApplication {
             protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
             }
-<<<<<<< HEAD
-        }, KeyCode.A, VirtualButton.LEFT);
-
-        //Mover personagem para a direita
-=======
         },
         KeyCode.A, VirtualButton.LEFT);
 
 
         // Mover personagem para a direita
->>>>>>> 9dc593f (add adjusts)
         getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
@@ -158,13 +115,9 @@ public class Main extends GameApplication {
             protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
             }
-<<<<<<< HEAD
-        }, KeyCode.D, VirtualButton.RIGHT);
-=======
         },
         KeyCode.D, VirtualButton.RIGHT);
 
->>>>>>> 9dc593f (add adjusts)
 
         //Pular com o personagem
         getInput().addAction(new UserAction("Jump") {
@@ -172,13 +125,9 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).jump();
             }
-<<<<<<< HEAD
-        }, KeyCode.W, VirtualButton.A);
-=======
         },
         KeyCode.W, VirtualButton.A);
 
->>>>>>> 9dc593f (add adjusts)
 
         //Atirar penas com o personagem
         getInput().addAction(new UserAction("Disparar pena") {
@@ -186,26 +135,18 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).shoot();
             }
-<<<<<<< HEAD
-        }, MouseButton.PRIMARY);
-=======
         },
         MouseButton.PRIMARY);
 
->>>>>>> 9dc593f (add adjusts)
 
         getInput().addAction(new UserAction("Disparar água") {
             @Override
             protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).dispararAgua();
             }
-<<<<<<< HEAD
-        }, MouseButton.SECONDARY);
-=======
         },
         MouseButton.SECONDARY);
 
->>>>>>> 9dc593f (add adjusts)
 
         getInput().addAction(new UserAction("PAUSE") {
             @Override
@@ -214,25 +155,17 @@ public class Main extends GameApplication {
                // FXGL.play("2024-05-01_19-17-10_online-audio-converter.com.wav");
                 getGameController().pauseEngine();
             }
-<<<<<<< HEAD
-        }, KeyCode.F);
-=======
         },
         KeyCode.F);
 
->>>>>>> 9dc593f (add adjusts)
 
         getInput().addAction(new UserAction("RESUME") {
             @Override
             protected void onActionBegin() {
                 getGameController().resumeEngine();
             }
-<<<<<<< HEAD
-        }, KeyCode.G);
-=======
         },
         KeyCode.G);
->>>>>>> 9dc593f (add adjusts)
 
 
         //Configurações de entradas de dados para testar o Espalha Lixo
@@ -241,30 +174,21 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 enemy.getComponent(EnemyComponent.class).moveParaEsquerda();
             }
-<<<<<<< HEAD
-        }, KeyCode.J);
-=======
         },
         KeyCode.J);
 
->>>>>>> 9dc593f (add adjusts)
 
         getInput().addAction(new UserAction("Move espalha lixo para a direita!") {
             @Override
             protected void onActionBegin() {
                 enemy.getComponent(EnemyComponent.class).moveParaDireita();
             }
-<<<<<<< HEAD
-        }, KeyCode.K);
-        getInput().addAction(new UserAction("Disparar com Espalha Lixo") {
-=======
         },
         KeyCode.K);
 
 
         getInput().addAction(new UserAction("Disparar com Espalha Lixo"){
 
->>>>>>> 9dc593f (add adjusts)
             @Override
             protected void onActionBegin() {
                 Entity enemy = getGameWorld().getSingleton(EntityType.ENEMY);
@@ -273,18 +197,10 @@ public class Main extends GameApplication {
                     return true;
                 });
 
-<<<<<<< HEAD
-
-                enemy.getComponent(EnemyComponent.class).atirar(entidadeMaisProxima.get());
-            }
-        }, KeyCode.L);
-
-=======
                 enemy.getComponent(EnemyComponent.class).atirar(entidadeMaisProxima.get());
             }
         },
         KeyCode.L);
->>>>>>> 9dc593f (add adjusts)
     }
 
 
@@ -294,35 +210,20 @@ public class Main extends GameApplication {
     @Override
     protected void onPreInit() {
         // Modificando volume inicial
-<<<<<<< HEAD
-        getSettings().setGlobalMusicVolume(0.8);
-
-        // Definindo som de fundo
-        loopBGM("backsound.wav");
-
-=======
         getSettings().setGlobalMusicVolume(0.20);
 
         // Definindo som de fundo
         loopBGM("backsound.wav");
->>>>>>> 9dc593f (add adjusts)
     }
 
     /*
     Método para iniciar o jogo adicionando a classe de fábrica (factory), também é reposponsável por
     invocar o plano de fundo e jogador e configurar a tela para se vincular ao jogador
-<<<<<<< HEAD
-     */
-    @Override
-    protected void initGame() {
-        FXGL.play("mudado.wav");
-=======
     */
     @Override
     protected void initGame(){
 
         FXGL.play("detenha.wav");
->>>>>>> 9dc593f (add adjusts)
 
         /*
          Vinculando a classe de fábrica que é responsável por saber
@@ -333,10 +234,7 @@ public class Main extends GameApplication {
 
         // Invocando plano de fundo
         spawn("background");
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
         // Definindo o mapa
         setLevelFromMap("tmx/map-remastered8.tmx");
 
@@ -360,10 +258,7 @@ public class Main extends GameApplication {
         viewport.bindToEntity(player, getAppWidth() / 2, 450);
         viewport.setZoom(2.5);
         viewport.setLazy(true);
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
     }
 
 
@@ -390,10 +285,6 @@ public class Main extends GameApplication {
 
         onCollisionBegin(EntityType.DISPARO_INIMIGO, EntityType.OBJETO_COMBUSTIVEL, (tiro, objetoCombustivel) -> {
            tiro.removeFromWorld();
-<<<<<<< HEAD
-           System.out.println("Acertou objeto combustivel");
-=======
->>>>>>> 9dc593f (add adjusts)
            objetoCombustivel.getComponent(ObjetoCombustivelComponent.class).tomaDano();
         });
 
@@ -405,14 +296,7 @@ public class Main extends GameApplication {
 
 
     // Método main padrão chamando as configurações da biblioteca FXGL
-<<<<<<< HEAD
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-=======
     public static void main(String[] args){
         launch(args);
     }
->>>>>>> 9dc593f (add adjusts)
 }

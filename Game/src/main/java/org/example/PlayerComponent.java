@@ -31,17 +31,10 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 /*
  Componente da entidade jogador para definir o visual e as ações
  */
-<<<<<<< HEAD
-public class PlayerComponent extends Component {
-    int x = 0;
-
-
-=======
 
 public class PlayerComponent extends Component {
     int x = 0;
 
->>>>>>> 9dc593f (add adjusts)
     // Injetando o componente de física para ser utilizado dentro da classe
     private PhysicsComponent physics;
 
@@ -54,10 +47,7 @@ public class PlayerComponent extends Component {
     //Propriedades de configurações
     //Colocar o jogador em tempo de espera para evitar tiros simultaneos
     private boolean shootInCooldown = false;
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
     //Definindo limite de pulos do jogador
     private int jumps = 4000;
 
@@ -69,25 +59,17 @@ public class PlayerComponent extends Component {
 
         // Definindo o PNG com os quadros (frames) de animação
         Image image = image("walk_piolin1-Sheet.png");
-<<<<<<< HEAD
-        // Definindo animação para jogador parado
-        animIdle = new AnimationChannel(image, 1, 64, 64, Duration.seconds(1), 0, 0);
-=======
 
         // Definindo animação para jogador parado
         animIdle = new AnimationChannel(image, 1, 64, 64, Duration.seconds(1), 0, 0);
 
->>>>>>> 9dc593f (add adjusts)
         // Definindo animação para jogador andando
         animWalk = new AnimationChannel(image, 4, 64, 64, Duration.seconds(1), 1, 3);
 
         // Colocando a primeira textura do jogodor ao ser invocado
         // animIdle = parado
         texture = new AnimatedTexture(animIdle);
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
         // Loop para gerar a animação
         texture.loop();
 
@@ -96,25 +78,15 @@ public class PlayerComponent extends Component {
         ImageView imagemBarraDeVida = new ImageView(imagemBarraDeVidaDiretorio);
         imagemBarraDeVida.setFitHeight(38);
 
-<<<<<<< HEAD
-        imagemBarraDeVida.setX(164);
-        imagemBarraDeVida.setY(196);
-=======
         imagemBarraDeVida.setX(getAppWidth() - 1000);
         imagemBarraDeVida.setY(52);
->>>>>>> 9dc593f (add adjusts)
         imagemBarraDeVida.setPreserveRatio(true);
 
         getGameScene().addUINode(imagemBarraDeVida);
 
         //BARRA DE VIDA
-<<<<<<< HEAD
-        barra_de_vida.setX(200);
-        barra_de_vida.setY(200);
-=======
         barra_de_vida.setX(getAppWidth() - 964);
         barra_de_vida.setY(56);
->>>>>>> 9dc593f (add adjusts)
         getGameScene().addUINode(barra_de_vida);
     }
 
@@ -125,10 +97,6 @@ public class PlayerComponent extends Component {
         entity.getViewComponent().addChild(texture);
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9dc593f (add adjusts)
         // Escala do personagem
         entity.setScaleX(0.4);
         entity.setScaleY(0.4);
@@ -146,15 +114,6 @@ public class PlayerComponent extends Component {
     // Método chamado quando ouver atualização a ser feita no personagem
     @Override
     public void onUpdate(double tpf) {
-<<<<<<< HEAD
-        // NECESSÁRIA ATUALIZAÇÃO NESTE BLOCO DE CÓDIGO FUTURAMENTE
-        // alternar as animações entre parado e andando
-        if (physics.isMovingX()) {
-            if (texture.getAnimationChannel() != animWalk) {
-                texture.loopAnimationChannel(animWalk);
-            }
-        } else {
-=======
 
         // NECESSÁRIA ATUALIZAÇÃO NESTE BLOCO DE CÓDIGO FUTURAMENTE
         // alternar as animações entre parado e andando
@@ -166,7 +125,6 @@ public class PlayerComponent extends Component {
         }
         else {
 
->>>>>>> 9dc593f (add adjusts)
             if (texture.getAnimationChannel() != animIdle) {
                 texture.loopAnimationChannel(animIdle);
             }
@@ -224,15 +182,11 @@ public class PlayerComponent extends Component {
             };
             timer.schedule(task, delay);
         }
-<<<<<<< HEAD
-        FXGL.play("paper.wav");
-=======
 
         FXGL.play("paper.wav");
 
 
 
->>>>>>> 9dc593f (add adjusts)
     }
 
     public void dispararAgua() {
@@ -255,11 +209,7 @@ public class PlayerComponent extends Component {
             FXGL.play("water.wav");
         }
 
-<<<<<<< HEAD
-        else if (x == 10) {
-=======
         else if (x == 7) {
->>>>>>> 9dc593f (add adjusts)
             FXGL.play("water.wav");
             x = 0;
         }
@@ -271,17 +221,9 @@ public class PlayerComponent extends Component {
         barra_de_vida.setWidth(barra_de_vida.getWidth()-10);
 
         if (vida <= 0 ) {
-<<<<<<< HEAD
-            // GAME OVER!
-            FimDeJogo.terminar();
-        }
-    }
-}
-=======
 
             // GAME OVER!
             FimDeJogo.terminarLoser();
         }
     }
 }
->>>>>>> 9dc593f (add adjusts)

@@ -19,22 +19,10 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getUIFactoryService;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
-<<<<<<< HEAD
-
-
-/*
- NÃO COMENTEI ESTÁ CLASSE POR QUE NÃO FAÇO IDEIA DE COMO EXPLICAR ELA
- EU APENAS DEI UM CTRL C + CTRL V DO EXEMPLO DO CRIADOR DO FXGL KKKK
-
- MAS DE FORMA BREVE ESTÁ CLASSE É RESPONSÁVEL POR CRIAR A CENA DE CARREGAMENTO (LOADING) DO JOGO!
- PS: VOU ESTUDAR ELA DEPOIS!
- */
-=======
 /*
      ESTÁ CLASSE É RESPONSÁVEL POR CRIAR A CENA DE CARREGAMENTO (LOADING) DO JOGO!
  */
 
->>>>>>> 9dc593f (add adjusts)
 public class MainLoadingScene extends LoadingScene {
 
     public MainLoadingScene() {
@@ -77,11 +65,6 @@ public class MainLoadingScene extends LoadingScene {
                 .buildAndPlay();
 
         getContentRoot().getChildren().setAll(bg, text, hbox, playerTexture);
-<<<<<<< HEAD
-    }
-}
-=======
 
     }
 }
->>>>>>> 9dc593f (add adjusts)

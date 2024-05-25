@@ -9,17 +9,10 @@ import org.example.utilitarios.FimDeJogo;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
-<<<<<<< HEAD
-public class ObjetoCombustivelComponent extends Component {
-
-    private static FlorestaComponent florestaComponente = new FlorestaComponent();
-
-=======
 
 public class ObjetoCombustivelComponent extends Component {
 
     private static FlorestaComponent florestaComponente = new FlorestaComponent();
->>>>>>> 9dc593f (add adjusts)
     private int contadorDeParticulas = 0;
 
 
@@ -32,8 +25,4 @@ public class ObjetoCombustivelComponent extends Component {
         florestaComponente.recuperar_vida_da_floresta();
         getEntity().getComponent(ParticleComponent.class).getEmitter().setNumParticles(0);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9dc593f (add adjusts)

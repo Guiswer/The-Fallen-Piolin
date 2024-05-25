@@ -16,14 +16,10 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameController;
 
 public class FimDeJogo {
 
-<<<<<<< HEAD
-    public static void terminar() {
-=======
     // Perdemos
     public static void terminarLoser() {
         // Configurações:
 
->>>>>>> 9dc593f (add adjusts)
         getGameController().pauseEngine();
         Rectangle barra_de_vida = new Rectangle(260, 50, Color.DARKORANGE);
         barra_de_vida.setX(getAppWidth()/2 - 130);
@@ -55,9 +51,6 @@ public class FimDeJogo {
         getGameScene().addUINode(btn);
         getGameScene().addUINode(textOptions);
     }
-<<<<<<< HEAD
-}
-=======
 
 
     // Ganhamos
@@ -96,4 +89,3 @@ public class FimDeJogo {
         getGameScene().addUINode(textOptions);
     }
 }
->>>>>>> 9dc593f (add adjusts)

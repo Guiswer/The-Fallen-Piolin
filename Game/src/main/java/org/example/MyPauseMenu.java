@@ -29,17 +29,11 @@ public class MyPauseMenu extends FXGLMenu {
         getContentRoot().setTranslateY(FXGL.getAppHeight() / 2.0 - SIZE);
 
         var shape = Shape.subtract(new Circle(SIZE, SIZE, SIZE), new Rectangle(0, SIZE, SIZE*2, SIZE));
-<<<<<<< HEAD
-
-        var shape2 = Shape.subtract(shape, new Rectangle(0, 0, SIZE, SIZE));
-
-=======
         var shape2 = Shape.subtract(shape, new Rectangle(0, 0, SIZE, SIZE));
 
 
         // Shape 1
 
->>>>>>> 9dc593f (add adjusts)
         shape = Shape.subtract(shape, new Rectangle(SIZE, 0, SIZE, SIZE));
 
         shape.setStrokeWidth(2.5);
@@ -53,12 +47,9 @@ public class MyPauseMenu extends FXGLMenu {
 
         shape.setOnMouseClicked(e -> fireResume());
 
-<<<<<<< HEAD
-=======
 
         // Shape 2
 
->>>>>>> 9dc593f (add adjusts)
         shape2.setStrokeWidth(2.5);
         shape2.strokeProperty().bind(
                 Bindings.when(shape2.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)
@@ -69,15 +60,11 @@ public class MyPauseMenu extends FXGLMenu {
         );
         shape2.setOnMouseClicked(e -> FXGL.getGameController().exit());
 
-<<<<<<< HEAD
-        var shape3 = new Rectangle(SIZE*2, SIZE / 2);
-=======
 
         // Shape 3
 
         var shape3 = new Rectangle(SIZE*2, SIZE / 2);
 
->>>>>>> 9dc593f (add adjusts)
         shape3.setStrokeWidth(2.5);
         shape3.strokeProperty().bind(
                 Bindings.when(shape3.hoverProperty()).then(Color.YELLOW).otherwise(Color.BLACK)

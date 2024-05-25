@@ -17,11 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-<<<<<<< HEAD
-
-=======
 import org.example.utilitarios.FimDeJogo;
->>>>>>> 9dc593f (add adjusts)
 
 import java.io.IOException;
 import java.util.Random;
@@ -36,32 +32,21 @@ import static org.example.EntityType.DISPARO_INIMIGO;
 
 
 public class EnemyComponent extends Component {
-<<<<<<< HEAD
-    int x = 0;
-    int y = 0;
-    int z = 0;
-=======
 
     // Atributos
     int x = 0;
 
->>>>>>> 9dc593f (add adjusts)
     private PhysicsComponent physics;
 
     //Injetando componentes para gerar animação ao visual (sprite) do jogador
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk, animTiro;
-<<<<<<< HEAD
-    private int life =30;
-    private Rectangle barra_de_vida;
-=======
 
     private int life = 30;
 
     // Definindo a barra de vida
     private Rectangle barra_de_vida;
 
->>>>>>> 9dc593f (add adjusts)
     private double escalaDoPersonagem = 0.8;
     private boolean metodoPararFoiUtilizado = false;
     private double guardaUltimaMovimentacao = 0.00;
@@ -69,22 +54,12 @@ public class EnemyComponent extends Component {
     private int velocidadeDoPersonagem = 180;
 
     private boolean tiroEmEspera = false;
-<<<<<<< HEAD
-
-=======
->>>>>>> 9dc593f (add adjusts)
     private Timer tarefaDeMovimentacaoAleatoria;
 
     public EnemyComponent() {
 
         // Definindo o PNG com os quadros (frames) de animação
         Image image = image("whole-espalha-lixot.png");
-<<<<<<< HEAD
-        // Definindo animação para inimigo parado
-        animIdle = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 0, 0);
-        // Definindo animação para inimigo andando
-        animWalk = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 4, 5);
-=======
 
         // Definindo animação para inimigo parado
         animIdle = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 0, 0);
@@ -92,15 +67,10 @@ public class EnemyComponent extends Component {
         // Definindo animação para inimigo andando
         animWalk = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1), 4, 5);
 
->>>>>>> 9dc593f (add adjusts)
         // Definindo animação para inimigo atirando
         animTiro = new AnimationChannel(image, 6, 64, 64, Duration.seconds(1.25), 2, 3);
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9dc593f (add adjusts)
         // Colocando a primeira textura do jogodor ao ser invocado
         // animIdle = parado
         texture = new AnimatedTexture(animWalk);
@@ -108,10 +78,6 @@ public class EnemyComponent extends Component {
         texture.loop();
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9dc593f (add adjusts)
         // Definindo imagem de borda para a barra de vida do Espalha Lixo
         Image imagemBarraDeVidaDiretorio = new Image("assets/textures/barra_de_vida_espalha_lixo.png");
         ImageView imagemBarraDeVida = new ImageView(imagemBarraDeVidaDiretorio);
@@ -135,10 +101,6 @@ public class EnemyComponent extends Component {
         tarefaDeMovimentacaoAleatoria.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-<<<<<<< HEAD
-                System.out.println("Executando tarefa aleatória de movimento");
-=======
->>>>>>> 9dc593f (add adjusts)
                 movimentacaoAleatoria();
             }
         }, 500, 1500);
@@ -152,10 +114,6 @@ public class EnemyComponent extends Component {
         // Escala do personagem
         entity.setScaleX(escalaDoPersonagem);
         entity.setScaleY(escalaDoPersonagem);
-<<<<<<< HEAD
-
-=======
->>>>>>> 9dc593f (add adjusts)
     }
 
     @Override
@@ -168,50 +126,24 @@ public class EnemyComponent extends Component {
                 physics.setVelocityX(-velocidadeDoPersonagem);
             }
         }
-<<<<<<< HEAD
-
     }
 
     public void tomaDano() {
-        System.out.println("Vida do Espalha Lixo: " + life);
-=======
-    }
-
-    public void tomaDano() {
->>>>>>> 9dc593f (add adjusts)
         life--;
         barra_de_vida.setWidth(barra_de_vida.getWidth()-3.33);
         if (life <= 0 ) {
             tarefaDeMovimentacaoAleatoria.cancel();
             entity.removeFromWorld();
-<<<<<<< HEAD
-        }
-
-        if (x == 4) {
-            FXGL.play("haha.wav");
-        }
-
-        else if (x == 7) {
-            FXGL.play("haha.wav");
-            x = 0;
-        }
-        x++;
-=======
             FimDeJogo.terminarWinner();
         }
 
         if (life == 4 || life == 15 || life == 22) {
             FXGL.play("haha.wav");
         }
->>>>>>> 9dc593f (add adjusts)
     }
 
     public void atirar(Entity entidadeParaAtirar) {
         if(!tiroEmEspera) {
-<<<<<<< HEAD
-            System.out.println("Espalha Lixo atirando...");
-=======
->>>>>>> 9dc593f (add adjusts)
             double direcaoDoProjetil = getEntity().getCenter().getX();;
             double origemDoProjetilEixoY = getEntity().getCenter().getY() - 25;
             double origemDoProjetilEixoX = direcaoDoProjetil;
@@ -251,30 +183,13 @@ public class EnemyComponent extends Component {
 
             Timer timer = new Timer();
             long delay = 600;
-<<<<<<< HEAD
-=======
 
->>>>>>> 9dc593f (add adjusts)
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
                     tiroEmEspera = false;
                 }
             };
-<<<<<<< HEAD
-            timer.schedule(task, delay);
-        }
-        if (y == 5) {
-            FXGL.play("fogo.wav");
-            FXGL.play("fire_launcher.wav");
-        }
-
-        else if (y == 8) {
-            FXGL.play("vaiqueimar.wav");
-            y = 0;
-        }
-        y++;
-=======
 
             timer.schedule(task, delay);
         }
@@ -296,7 +211,6 @@ public class EnemyComponent extends Component {
         }
 
         x++;
->>>>>>> 9dc593f (add adjusts)
     }
 
     public void moveParaEsquerda() {
@@ -336,15 +250,6 @@ public class EnemyComponent extends Component {
 
         if (decisaoAleatoriaDeMovimentacao == 0) {
             moveParaDireita();
-<<<<<<< HEAD
-        } else if (decisaoAleatoriaDeMovimentacao == 1) {
-            moveParaEsquerda();
-        } else {
-            pararPersonagem();
-        }
-    }
-}
-=======
         }
 
         else if (decisaoAleatoriaDeMovimentacao == 1) {
@@ -356,4 +261,3 @@ public class EnemyComponent extends Component {
         }
     }
 }
->>>>>>> 9dc593f (add adjusts)
