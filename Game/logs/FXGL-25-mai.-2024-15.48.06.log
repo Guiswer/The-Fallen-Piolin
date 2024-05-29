@@ -1,0 +1,134 @@
+15:48:02.621 [main                     ] DEBUG Logger               - Configured Logger
+15:48:02.647 [main                     ] DEBUG GameApplication      - Logging settings
+Title: Untitled
+Version: 0.0
+Width: 1050
+Height: 700
+Fullscreen: false
+Intro: false
+Profiling: false
+Single step:false
+App Mode: DEVELOPER
+Menu Key: ESCAPE
+Stage Style: DECORATED
+Scene Factory: class org.example.Main$1
+
+15:48:03.008 [JavaFX Application Thread] DEBUG FXGLApplication      - Initializing FXGL
+15:48:03.012 [JavaFX Application Thread] INFO  Engine               - FXGL-21 (28.12.2023 13.35) on WINDOWS (J:21.0.3 FX:21.0.1)
+15:48:03.012 [JavaFX Application Thread] DEBUG Engine               - JRE Vendor Name: Oracle Corporation
+15:48:03.013 [JavaFX Application Thread] DEBUG Engine               - Running on OS: Windows 11 version 10.0
+15:48:03.013 [JavaFX Application Thread] DEBUG Engine               - Architecture: amd64
+15:48:03.013 [JavaFX Application Thread] INFO  Engine               - Source code and latest versions at: https://github.com/AlmasB/FXGL
+15:48:03.013 [JavaFX Application Thread] INFO  Engine               -       Ask questions and discuss at: https://github.com/AlmasB/FXGL/discussions
+15:48:03.013 [JavaFX Application Thread] INFO  Engine               -              Join the FXGL chat at: https://gitter.im/AlmasB/FXGL
+15:48:03.100 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Creating a JavaFX scene
+15:48:03.145 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Target settings size: 1050.0 x 700.0
+15:48:03.145 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Scaled scene size:    1050.0 x 700.0
+15:48:03.145 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Scaled ratio: (1.0, 1.0)
+15:48:03.147 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Set initial scene to FXGLStartupScene
+15:48:03.150 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Opening main window
+15:48:03.229 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Window border size: (16.0, 39.0)
+15:48:03.229 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Scaled size: 1050.0 x 700.0
+15:48:03.230 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Scaled ratio: (1.0, 1.0)
+15:48:03.230 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Scene size: 1050.0 x 700.0
+15:48:03.231 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Stage size: 1066.0 x 739.0
+15:48:03.239 [FXGL Background Thread 1 ] DEBUG Engine               - Initializing environment variables
+15:48:03.298 [FXGL Background Thread 1 ] DEBUG FXGLAssetLoaderServi - User app class for loading assets: class org.example.Main
+15:48:03.298 [FXGL Background Thread 1 ] DEBUG GameApplicationServi - Applying CSS: fxgl_dark.css
+15:48:03.300 [FXGL Background Thread 1 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/ui/css/fxgl_dark.css
+15:48:03.342 [FXGL Background Thread 1 ] DEBUG GameApplicationServi - Initializing application scenes
+15:48:03.497 [FXGL Background Thread 1 ] WARN  FXGLAssetLoaderServi - Asset "/assets/textures/player.png" was not found!
+15:48:03.497 [FXGL Background Thread 1 ] WARN  FXGLAssetLoaderServi - Failed to load IMAGE
+15:48:03.520 [FXGL Background Thread 1 ] DEBUG GameWorld            - Game world initialized
+15:48:03.566 [FXGL Background Thread 1 ] DEBUG PhysicsWorld         - Physics world initialized: appHeight=700, physics.ppm=50,0
+15:48:03.567 [FXGL Background Thread 1 ] DEBUG PhysicsWorld         - Using strategy: BRUTE_FORCE
+15:48:03.570 [FXGL Background Thread 1 ] DEBUG GameScene            - Game scene initialized: 1050x700
+15:48:03.578 [FXGL Background Thread 1 ] DEBUG FXGL.DefaultMenu     - createMenuBodyGameMenu()
+15:48:03.594 [FXGL Background Thread 1 ] DEBUG FXGL.DefaultMenu     - createOptionsMenu()
+15:48:03.604 [FXGL Background Thread 1 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/textures/particles/smoke.png
+15:48:03.704 [FXGL Background Thread 1 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/textures/particles/trace_horizontal.png
+15:48:03.730 [FXGL Background Thread 1 ] DEBUG GameApplicationServi - Application scenes initialized
+15:48:03.745 [FXGL Background Thread 1 ] DEBUG SystemBundleService  - Loading FXGL system data
+15:48:03.749 [FXGL Background Thread 1 ] DEBUG FileSystemAccess     - Reading from: C:\Users\nykum\OneDrive\Área de Trabalho\The-Fallen-Piolin\Game\system\fxgl.bundle
+15:48:03.761 [FXGL Background Thread 1 ] DEBUG SystemBundleService  - Bundle FXGL: {}
+15:48:03.761 [FXGL Background Thread 1 ] DEBUG UpdaterService       - Checking for updates
+15:48:03.786 [FXGL Background Thread 4 ] DEBUG FXGLApplication      - Loading fonts
+15:48:03.787 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/ui/fonts/VarelaRound-Regular.ttf
+15:48:03.788 [FXGL Background Thread 1 ] DEBUG FXGLApplication      - Loading default localization
+15:48:03.788 [FXGL Background Thread 1 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/languages/english.lang
+15:48:03.812 [FXGL Background Thread 1 ] INFO  FXGLApplication      - FXGL initialization took: 0,573 sec
+15:48:03.812 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/ui/fonts/Abel-Regular.ttf
+15:48:03.816 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/ui/fonts/TerminalLandMono-Regular.otf
+15:48:03.819 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/ui/fonts/Courier-Prime.ttf
+15:48:03.824 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Left - A
+15:48:03.824 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Right - D
+15:48:03.825 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Jump - W
+15:48:03.826 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Disparar pena - LMB
+15:48:03.826 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Disparar água - RMB
+15:48:03.827 [JavaFX Application Thread] DEBUG Input                - Registered new binding: PAUSE - F
+15:48:03.827 [JavaFX Application Thread] DEBUG Input                - Registered new binding: RESUME - G
+15:48:03.827 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Move espalha lixo para a esquerda! - J
+15:48:03.827 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Move espalha lixo para a direita! - K
+15:48:03.827 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Disparar com Espalha Lixo - L
+15:48:03.827 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/music/backsound.wav
+15:48:03.955 [JavaFX Application Thread] DEBUG AudioPlayer          - Playing music com.almasb.fxgl.audio.Music@48d7d58b
+15:48:03.955 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/textures/fxgl_icon.png
+15:48:03.971 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: jar:file:///C:/Users/nykum/.m2/repository/com/github/almasb/fxgl/21/fxgl-21.jar!/fxglassets/textures/fxgl_default_cursor.png
+15:48:03.975 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Screenshot - CTRL+8
+15:48:03.975 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Dev Options - 1
+15:48:03.976 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Dev Console - 2
+15:48:03.976 [JavaFX Application Thread] DEBUG Input                - Registered new binding: System info dump - CTRL+9
+15:48:03.976 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Restart - CTRL+R
+15:48:03.977 [JavaFX Application Thread] DEBUG Input                - Registered new binding: Toggle Debug Camera - CTRL+7
+15:48:03.980 [JavaFX Application Thread] DEBUG LoopRunner           - Starting loop
+15:48:03.994 [JavaFX Application Thread] DEBUG LoopRunner           - Initializing JavaFX AnimationTimerLoop
+15:48:03.995 [JavaFX Application Thread] DEBUG GameApplicationServi - Starting new game
+15:48:03.995 [JavaFX Application Thread] DEBUG Input                - Clearing active input actions
+15:48:04.011 [JavaFX Application Thread] DEBUG GameApplicationServi - Removing overlay from FXGLStartupScene and adding to MainLoadingScene
+15:48:04.015 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - FXGLStartupScene -> MainLoadingScene
+15:48:04.015 [JavaFX Application Thread] DEBUG GameApplicationServi - Clearing previous game
+15:48:04.015 [JavaFX Application Thread] DEBUG GameScene            - Clearing game scene
+15:48:04.015 [JavaFX Application Thread] DEBUG GameWorld            - Clearing game world
+15:48:04.015 [JavaFX Application Thread] DEBUG PhysicsWorld         - Clearing physics world
+15:48:04.017 [FXGL Background Thread 4 ] DEBUG FXGLApplication      - Initializing game
+15:48:04.017 [JavaFX Application Thread] DEBUG FXGLApplication      - Registering font factories with UI factory
+15:48:04.018 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/sounds/detenha.wav
+15:48:04.040 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/textures/background/forest.png
+15:48:04.216 [FXGL Background Thread 4 ] WARN  TMXLevelLoader       - TiledMap generated from 1.10.2. Supported version: 1.9.0. Some features may not be parsed fully.
+15:48:04.276 [FXGL Background Thread 4 ] DEBUG TMXLevelLoader       - Parsed TiledMap: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/levels/tmx/map-remastered8.tmx
+15:48:04.277 [FXGL Background Thread 4 ] DEBUG TMXLevelLoader       - Creating tile layer entities
+15:48:04.278 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer lower-down-above
+15:48:04.279 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.306 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer end
+15:48:04.308 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.312 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer middle
+15:48:04.315 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.317 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer first
+15:48:04.320 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.322 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer last
+15:48:04.327 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.328 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer trees to burn
+15:48:04.333 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.336 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Loading view for layer front-one-more
+15:48:04.342 [FXGL Background Thread 4 ] DEBUG TilesetLoader        - Created buffer with size 2560.0x800.0
+15:48:04.343 [FXGL Background Thread 4 ] DEBUG TMXLevelLoader       - Creating object layer entities
+15:48:04.371 [FXGL Background Thread 4 ] DEBUG GameWorld            - Clearing removable entities
+15:48:04.372 [FXGL Background Thread 4 ] DEBUG GameWorld            - Setting level: com.almasb.fxgl.entity.level.Level@76443f60
+15:48:04.381 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/textures/walk_piolin1-Sheet.png
+15:48:04.394 [FXGL Background Thread 4 ] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/textures/whole-espalha-lixot.png
+15:48:04.398 [FXGL Background Thread 4 ] INFO  FXGLApplication      - Game initialization took: 0,382 sec
+15:48:04.399 [JavaFX Application Thread] DEBUG Input                - Clearing active input actions
+15:48:04.407 [JavaFX Application Thread] DEBUG GameApplicationServi - Removing overlay from MainLoadingScene and adding to GameScene
+15:48:04.412 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - MainLoadingScene -> GameScene
+15:48:04.418 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/textures/tiro_de_fogo.png
+15:48:04.420 [FXGL Background Thread 2 ] INFO  UpdaterService       - Your current version:  21
+15:48:04.420 [FXGL Background Thread 2 ] INFO  UpdaterService       - Latest stable version: 21.1
+15:48:05.624 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/sounds/fire_launcher.wav
+15:48:06.226 [JavaFX Application Thread] DEBUG FXGLAssetLoaderServi - Loading from file system: file:/C:/Users/nykum/OneDrive/Área%20de%20Trabalho/The-Fallen-Piolin/Game/target/classes/assets/sounds/fogo.wav
+15:48:06.676 [JavaFX Application Thread] DEBUG FXGLApplication      - Exiting FXGL
+15:48:06.676 [JavaFX Application Thread] DEBUG LoopRunner           - Stopping loop
+15:48:06.676 [JavaFX Application Thread] DEBUG SystemBundleService  - Saving FXGL system data
+15:48:06.678 [JavaFX Application Thread] DEBUG FileSystemAccess     - Writing to: C:\Users\nykum\OneDrive\Área de Trabalho\The-Fallen-Piolin\Game\system\fxgl.bundle
+15:48:06.680 [JavaFX Application Thread] DEBUG Async                - Shutting down background threads
+15:48:06.680 [JavaFX Application Thread] DEBUG PrimaryStageWindow   - Closing main window
+15:48:06.687 [JavaFX Application Thread] DEBUG Logger               - Closing Logger
